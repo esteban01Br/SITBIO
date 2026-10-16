@@ -1,0 +1,340 @@
+<UserControl x:Class="SITBIO_Desktop.Views.UsuarioDetalleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:SITBIO_Desktop.ViewModels"
+             xmlns:ctrl="clr-namespace:SITBIO_Desktop.Controls"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:UsuarioDetalleViewModel}"
+             d:DesignHeight="1250" d:DesignWidth="1240">
+
+    <UserControl.Resources>
+
+        <!-- Chip de rol: color según la sigla del rol -->
+        <Style x:Key="ChipRolFondo" TargetType="Border" BasedOn="{StaticResource Chip}">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="{StaticResource PrimarySoftBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SiglaRol}" Value="CBM">
+                    <Setter Property="Background" Value="{StaticResource AccentSoftBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SiglaRol}" Value="TEC">
+                    <Setter Property="Background" Value="{StaticResource PurpleSoftBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource PurpleBrush}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SiglaRol}" Value="PCL">
+                    <Setter Property="Background" Value="{StaticResource SuccessSoftBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource SuccessBrush}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SiglaRol}" Value="DIR">
+                    <Setter Property="Background" Value="{StaticResource WarningSoftBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource WarningBrush}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SiglaRol}" Value="REG">
+                    <Setter Property="Background" Value="{StaticResource SurfaceAltBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource BorderStrongBrush}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ChipRolTexto" TargetType="TextBlock" BasedOn="{StaticResource Chip.Texto}">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SiglaRol}" Value="CBM">
+                    <Setter Property="Foreground" Value="{StaticResource AccentDarkBrush}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SiglaRol}" Value="TEC">
+                    <Setter Property="Foreground" Value="{StaticResource PurpleBrush}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SiglaRol}" Value="PCL">
+                    <Setter Property="Foreground" Value="{StaticResource SuccessBrush}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SiglaRol}" Value="DIR">
+                    <Setter Property="Foreground" Value="{StaticResource WarningBrush}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SiglaRol}" Value="REG">
+                    <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Formulario de cambio de rol (contenido del diálogo) -->
+        <DataTemplate DataType="{x:Type vm:FormularioRol}">
+            <StackPanel>
+                <TextBlock Text="Rol dentro de la matriz RBAC" Style="{StaticResource Texto.Etiqueta}"/>
+                <ComboBox Style="{StaticResource Selector}"
+                          ItemsSource="{Binding Roles}"
+                          SelectedItem="{Binding RolSeleccionado}"
+                          DisplayMemberPath="Nombre"
+                          ToolTip="Seleccione el nuevo rol de la cuenta"/>
+
+                <Border Background="{StaticResource InfoSoftBrush}"
+                        BorderBrush="{StaticResource InfoBrush}" BorderThickness="1"
+                        CornerRadius="9" Padding="12,10" Margin="0,14,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE946;" FontFamily="{StaticResource IconFont}" FontSize="14"
+                                   Foreground="{StaticResource InfoBrush}" Margin="0,1,8,0"/>
+                        <TextBlock Text="El nuevo nivel de acceso se aplica de inmediato sobre las 10 áreas del sistema y queda registrado en la bitácora de auditoría (OBJ-02)."
+                                   Style="{StaticResource Texto.Auxiliar}" MaxWidth="440"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="28,22,28,34">
+
+                <!-- ===================== Encabezado ===================== -->
+                <ctrl:PageHeader Titulo="{Binding Nombre}"
+                                 Subtitulo="{Binding Subtitulo}"
+                                 Icono="&#xE902;"
+                                 Contador="{Binding Contador}"
+                                 NotaContador="{Binding NotaContador}">
+                    <ctrl:PageHeader.Acciones>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Style="{StaticResource Boton.Contorno}" Padding="13,9" Margin="0,0,9,0"
+                                    Command="{Binding EditarRolCommand}"
+                                    ToolTip="Cambia el rol del usuario dentro de la matriz RBAC"
+                                    Visibility="{Binding PuedeEditarUsuarios, Converter={StaticResource CvtBoolVisible}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE748;" FontFamily="{StaticResource IconFont}" FontSize="14"
+                                               Foreground="{StaticResource AccentBrush}" Margin="0,1,7,0"/>
+                                    <TextBlock Text="Cambiar rol"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource Boton.Acento}" Padding="15,9"
+                                    Command="{Binding VolverCommand}"
+                                    ToolTip="Regresa al padrón de usuarios">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE72A;" FontFamily="{StaticResource IconFont}" FontSize="14" Margin="0,1,7,0"/>
+                                    <TextBlock Text="Volver"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </ctrl:PageHeader.Acciones>
+                </ctrl:PageHeader>
+
+                <!-- ===================== Perfil + matriz RBAC ===================== -->
+                <Grid Margin="0,18,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1.15*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Perfil -->
+                    <Border Grid.Column="0" Style="{StaticResource Tarjeta}" Padding="22,18" Margin="0,0,14,0">
+                        <StackPanel>
+                            <TextBlock Text="Perfil de la cuenta" Style="{StaticResource Texto.Tarjeta}"/>
+                            <TextBlock Text="Datos de identificación, rol y estado de acceso"
+                                       Style="{StaticResource Texto.Auxiliar}" Margin="0,4,0,16"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Border Width="64" Height="64" CornerRadius="32"
+                                        Background="{StaticResource PrimarySoftBrush}">
+                                    <TextBlock Text="{Binding Iniciales}" FontSize="22" FontWeight="SemiBold"
+                                               Foreground="{StaticResource PrimaryDarkBrush}"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Margin="16,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Nombre}" FontSize="17" FontWeight="SemiBold"
+                                               Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding Email}" FontSize="12.5"
+                                               Foreground="{StaticResource TextSecondaryBrush}" Margin="0,3,0,0"/>
+                                    <TextBlock Text="{Binding Cargo}" FontSize="11.5"
+                                               Foreground="{StaticResource TextMutedBrush}" Margin="0,2,0,0"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <Border Height="1" Background="{StaticResource DividerBrush}" Margin="0,18,0,14"/>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Rol -->
+                                <StackPanel>
+                                    <TextBlock Text="Rol en la matriz RBAC" Style="{StaticResource Texto.Etiqueta}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Style="{StaticResource ChipRolFondo}">
+                                            <TextBlock Text="{Binding SiglaRol}" Style="{StaticResource ChipRolTexto}"/>
+                                        </Border>
+                                        <TextBlock Text="{Binding NombreRol}" FontSize="12"
+                                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                                   VerticalAlignment="Center" Margin="8,0,0,0"
+                                                   TextTrimming="CharacterEllipsis" MaxWidth="240"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Estado -->
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="Estado de la cuenta" Style="{StaticResource Texto.Etiqueta}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Style="{StaticResource Chip}" BorderThickness="1"
+                                                Background="{StaticResource SuccessSoftBrush}"
+                                                BorderBrush="{StaticResource SuccessBrush}"
+                                                Visibility="{Binding Activo, Converter={StaticResource CvtBoolVisible}}">
+                                            <TextBlock Text="Activo" Style="{StaticResource Chip.Texto}"
+                                                       Foreground="{StaticResource SuccessBrush}"/>
+                                        </Border>
+                                        <Border Style="{StaticResource Chip}" BorderThickness="1"
+                                                Background="{StaticResource DangerSoftBrush}"
+                                                BorderBrush="{StaticResource DangerBrush}"
+                                                Visibility="{Binding Activo, Converter={StaticResource CvtNoBoolVisible}}">
+                                            <TextBlock Text="Inactivo" Style="{StaticResource Chip.Texto}"
+                                                       Foreground="{StaticResource DangerBrush}"/>
+                                        </Border>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Fecha de registro -->
+                                <StackPanel Grid.Row="1" Margin="0,14,0,0">
+                                    <TextBlock Text="Fecha de registro" Style="{StaticResource Texto.Etiqueta}"/>
+                                    <TextBlock Text="{Binding FechaRegistro}" Style="{StaticResource Texto.Dato}" FontSize="13"/>
+                                </StackPanel>
+
+                                <!-- Último acceso -->
+                                <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,14,0,0">
+                                    <TextBlock Text="Último acceso" Style="{StaticResource Texto.Etiqueta}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding UltimoAcceso}" Style="{StaticResource Texto.Dato}" FontSize="13"/>
+                                        <Border CornerRadius="7" Padding="8,4" Margin="8,0,0,0" VerticalAlignment="Center"
+                                                Background="{StaticResource WarningSoftBrush}"
+                                                Visibility="{Binding SinAcceso, Converter={StaticResource CvtBoolVisible}}">
+                                            <TextBlock Text="aún no inicia sesión" FontSize="10.5" FontWeight="SemiBold"
+                                                       Foreground="{StaticResource WarningBrush}"/>
+                                        </Border>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Matriz RBAC del rol -->
+                    <Border Grid.Column="1" Style="{StaticResource Tarjeta}" Padding="22,18">
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                                <TextBlock Text="Matriz de permisos del rol" Style="{StaticResource Texto.Tarjeta}"/>
+                                <TextBlock FontSize="11" Foreground="{StaticResource TextMutedBrush}"
+                                           TextWrapping="Wrap" Margin="0,4,0,0">
+                                    <Run Text="Nivel de "/>
+                                    <Run Text="{Binding NombreRol, Mode=OneWay}"/>
+                                    <Run Text=" en cada área del sistema"/>
+                                </TextBlock>
+                            </StackPanel>
+
+                            <DataGrid ItemsSource="{Binding Matriz}" MaxHeight="430">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="1.2*" Header="ÁREA">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Margin="0,0,10,0">
+                                                    <TextBlock Text="{Binding AreaTexto}" FontSize="12.5" FontWeight="SemiBold"
+                                                               Foreground="{StaticResource TextPrimaryBrush}"/>
+                                                    <TextBlock Text="{Binding Descripcion}" FontSize="10.5"
+                                                               Foreground="{StaticResource TextMutedBrush}"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="*" Header="NIVEL">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Margin="0,0,6,0">
+                                                    <Border Width="9" Height="9" CornerRadius="5" Margin="0,0,8,0"
+                                                            VerticalAlignment="Center"
+                                                            Background="{Binding Nivel, Converter={StaticResource CvtNivelColor}}"/>
+                                                    <TextBlock Text="{Binding Nivel, Converter={StaticResource CvtNivelTexto}}"
+                                                               FontSize="11.5" FontWeight="SemiBold" VerticalAlignment="Center"
+                                                               Foreground="{Binding Nivel, Converter={StaticResource CvtNivelColor}}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+
+                <!-- ===================== Historial de auditoría ===================== -->
+                <Border Margin="0,18,0,0" Style="{StaticResource Tarjeta}" Padding="20,16,20,14">
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Top" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="Historial de auditoría del usuario" Style="{StaticResource Texto.Tarjeta}"/>
+                                <TextBlock Text="Últimos eventos de la bitácora inmutable que registran esta cuenta (RSK-01)"
+                                           Style="{StaticResource Texto.Auxiliar}" Margin="0,4,0,0"/>
+                            </StackPanel>
+                            <Border HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="7"
+                                    Padding="9,5" Background="{StaticResource PrimarySofterBrush}">
+                                <TextBlock Text="máximo 15 eventos" FontSize="11"
+                                           Foreground="{StaticResource PrimaryDarkBrush}"/>
+                            </Border>
+                        </Grid>
+
+                        <Grid>
+                            <DataGrid ItemsSource="{Binding Historial}" MaxHeight="380">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="150" Header="FECHA"
+                                                        Binding="{Binding Fecha, StringFormat=dd MMM yyyy · HH:mm}"
+                                                        FontSize="11.5"/>
+                                    <DataGridTemplateColumn Width="176" Header="ACCIÓN">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border Style="{StaticResource Chip}" BorderThickness="1"
+                                                        Background="{StaticResource SurfaceAltBrush}"
+                                                        BorderBrush="{StaticResource BorderStrongBrush}">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Icono}" FontFamily="{StaticResource IconFont}"
+                                                                   FontSize="11" Margin="0,0,6,0"
+                                                                   Foreground="{StaticResource TextSecondaryBrush}"/>
+                                                        <TextBlock Text="{Binding AccionTexto}" Style="{StaticResource Chip.Texto}"
+                                                                   Foreground="{StaticResource TextSecondaryBrush}"/>
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTextColumn Width="130" Header="ENTIDAD" Binding="{Binding Entidad}" FontSize="11.5"/>
+                                    <DataGridTextColumn Width="170" Header="REFERENCIA" Binding="{Binding Referencia}" FontSize="11.5"/>
+                                    <DataGridTextColumn Width="*" Header="DETALLE" Binding="{Binding Detalle}" FontSize="11.5"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <ctrl:EmptyState Icono="&#xE81C;"
+                                             Titulo="Sin eventos auditados"
+                                             Mensaje="Todavía la bitácora no registra acciones realizadas por este usuario."
+                                             Visibility="{Binding Historial, Converter={StaticResource CvtColeccionVacia}}"/>
+                        </Grid>
+                    </DockPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- ===================== Diálogo de cambio de rol ===================== -->
+        <ctrl:Dialogo Visible="{Binding DialogoAbierto}"
+                      Titulo="Cambiar rol del usuario"
+                      Subtitulo="El cambio de nivel de acceso queda registrado en la bitácora"
+                      Icono="&#xE748;" Ancho="560"
+                      Contenido="{Binding ContenidoDialogo}"
+                      TextoConfirmar="Guardar rol"
+                      TextoCancelar="Cancelar"
+                      ConfirmarCommand="{Binding GuardarCommand}"
+                      CancelarCommand="{Binding CancelarCommand}"/>
+    </Grid>
+</UserControl>

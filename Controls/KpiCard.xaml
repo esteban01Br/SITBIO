@@ -1,0 +1,70 @@
+<UserControl x:Class="SITBIO_Desktop.Controls.KpiCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="140" d:DesignWidth="260">
+
+    <Border Style="{StaticResource Tarjeta}" Padding="17" ToolTip="{Binding Ayuda, RelativeSource={RelativeSource AncestorType=UserControl}}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Título + icono -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                           Style="{StaticResource Texto.Tarjeta}" VerticalAlignment="Center"
+                           TextWrapping="Wrap" LineHeight="17"/>
+
+                <Border Grid.Column="1" Width="34" Height="34" CornerRadius="10" Margin="10,0,0,0"
+                        Background="{Binding IconoFondo, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                    <TextBlock Text="{Binding Icono, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                               FontFamily="{StaticResource IconFont}" FontSize="15"
+                               HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{Binding IconoColor, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                </Border>
+            </Grid>
+
+            <!-- Valor -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,12,0,0" VerticalAlignment="Bottom">
+                <TextBlock Text="{Binding Valor, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                           FontSize="27" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"
+                           LineHeight="30"/>
+                <TextBlock Text="{Binding Unidad, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                           FontSize="13" Foreground="{StaticResource TextMutedBrush}"
+                           Margin="5,0,0,7" VerticalAlignment="Bottom"/>
+            </StackPanel>
+
+            <!-- Variación / leyenda -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,9,0,0"
+                        Visibility="{Binding DeltaTexto, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource CvtTextoVisible}}">
+                <Border CornerRadius="5" Padding="6,2"
+                        Background="{Binding DeltaFondo, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding DeltaIcono, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   FontFamily="{StaticResource IconFont}" FontSize="10"
+                                   Foreground="{Binding DeltaColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   Margin="0,1,4,0"/>
+                        <TextBlock Text="{Binding DeltaTexto, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                   FontSize="11" FontWeight="SemiBold"
+                                   Foreground="{Binding DeltaColor, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                    </StackPanel>
+                </Border>
+                <TextBlock Text="{Binding Leyenda, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                           FontSize="11" Foreground="{StaticResource TextMutedBrush}"
+                           Margin="8,0,0,0" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

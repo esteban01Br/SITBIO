@@ -1,0 +1,107 @@
+<UserControl x:Class="SITBIO_Desktop.Controls.Dialogo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Panel.ZIndex="900"
+             d:DesignHeight="400" d:DesignWidth="560">
+
+    <Grid Visibility="{Binding Visible, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource CvtBoolVisible}}"
+          Panel.ZIndex="900">
+
+        <!-- Capa de fondo -->
+        <Border Background="#3D0E1B2C">
+            <Border.InputBindings>
+                <MouseBinding MouseAction="LeftClick"
+                              Command="{Binding CancelarCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            </Border.InputBindings>
+        </Border>
+
+        <!-- Panel -->
+        <Border x:Name="Panel"
+                MaxWidth="{Binding Ancho, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                Width="Auto" MinWidth="380" MaxHeight="640"
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                Background="{StaticResource SurfaceBrush}"
+                BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                CornerRadius="14">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="34" ShadowDepth="8" Opacity="0.26" Color="#0E1B2C"/>
+            </Border.Effect>
+
+            <DockPanel LastChildFill="True">
+
+                <!-- Encabezado -->
+                <Border DockPanel.Dock="Top" Padding="22,18,16,14"
+                        BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Width="36" Height="36" CornerRadius="11" Margin="0,0,13,0"
+                                Background="{Binding IconoFondo, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <TextBlock Text="{Binding Icono, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                       FontFamily="{StaticResource IconFont}" FontSize="16"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="{Binding IconoColor, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </Border>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                       FontSize="15.5" FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <TextBlock Text="{Binding Subtitulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                       FontSize="12" Margin="0,3,0,0" LineHeight="18"
+                                       Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap"
+                                       Visibility="{Binding Subtitulo, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource CvtTextoVisible}}"/>
+                        </StackPanel>
+
+                        <Button Grid.Column="2" Style="{StaticResource Boton.Icono}"
+                                Command="{Binding CancelarCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                Content="&#xE711;" FontSize="14" ToolTip="Cerrar"/>
+                    </Grid>
+                </Border>
+
+                <!-- Contenido -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="22,18">
+                    <ContentPresenter Content="{Binding Contenido, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                </ScrollViewer>
+
+                <!-- Pie de acciones -->
+                <Border DockPanel.Dock="Bottom" Padding="22,14,22,20"
+                        BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0"
+                        Background="{StaticResource SurfaceAltBrush}"
+                        CornerRadius="0,0,14,14">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Style="{StaticResource Boton.Contorno}" Padding="15,9" Margin="0,0,10,0"
+                                Content="{Binding TextoCancelar, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                Command="{Binding CancelarCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                        <Button Padding="17,9"
+                                Content="{Binding TextoConfirmar, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                Command="{Binding ConfirmarCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding ParametroConfirmar, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                Visibility="{Binding TextoConfirmar, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource CvtTextoVisible}}">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource Boton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding EsPeligro, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource DangerBrush}"/>
+                                            <Setter Property="BorderBrush" Value="{StaticResource DangerBrush}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

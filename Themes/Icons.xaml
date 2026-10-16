@@ -1,0 +1,96 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <!-- Fuente de iconos nativa de Windows (verificada visualmente). -->
+    <FontFamily x:Key="IconFont">Segoe MDL2 Assets</FontFamily>
+
+    <!-- ===================== Navegación / módulos ===================== -->
+    <sys:String x:Key="Icon.Inicio">&#xE80F;</sys:String>        <!-- casa -->
+    <sys:String x:Key="Icon.Equipos">&#xE912;</sys:String>        <!-- dispositivos -->
+    <sys:String x:Key="Icon.Ordenes">&#xE90F;</sys:String>        <!-- llave inglesa -->
+    <sys:String x:Key="Icon.Intervencion">&#xE77F;</sys:String>   <!-- portapapeles -->
+    <sys:String x:Key="Icon.Tecnicos">&#xE716;</sys:String>       <!-- equipo de personas -->
+    <sys:String x:Key="Icon.Formularios">&#xE729;</sys:String>    <!-- documento -->
+    <sys:String x:Key="Icon.Reportes">&#xE9F9;</sys:String>       <!-- documento con grafica -->
+    <sys:String x:Key="Icon.Usuarios">&#xE902;</sys:String>       <!-- grupo de personas -->
+    <sys:String x:Key="Icon.Configuracion">&#xE713;</sys:String>  <!-- engranaje -->
+    <sys:String x:Key="Icon.Auditoria">&#xE81C;</sys:String>      <!-- historial -->
+    <sys:String x:Key="Icon.InicioSesion">&#xE89F;</sys:String>   <!-- entrar -->
+    <sys:String x:Key="Icon.CierreSesion">&#xE8A0;</sys:String>   <!-- salir -->
+
+    <!-- ===================== Acciones ===================== -->
+    <sys:String x:Key="Icon.Agregar">&#xE710;</sys:String>
+    <sys:String x:Key="Icon.Editar">&#xE70F;</sys:String>
+    <sys:String x:Key="Icon.Eliminar">&#xE74D;</sys:String>
+    <sys:String x:Key="Icon.Buscar">&#xE721;</sys:String>
+    <sys:String x:Key="Icon.Filtrar">&#xE71C;</sys:String>
+    <sys:String x:Key="Icon.Actualizar">&#xE72C;</sys:String>
+    <sys:String x:Key="Icon.Cerrar">&#xE711;</sys:String>
+    <sys:String x:Key="Icon.Aceptar">&#xE73E;</sys:String>
+    <sys:String x:Key="Icon.CheckCirculo">&#xE930;</sys:String>
+    <sys:String x:Key="Icon.Mas">&#xE712;</sys:String>
+    <sys:String x:Key="Icon.Guardar">&#xE74E;</sys:String>
+    <sys:String x:Key="Icon.Imprimir">&#xE749;</sys:String>
+    <sys:String x:Key="Icon.Ver">&#xE7B3;</sys:String>
+    <sys:String x:Key="Icon.Asignar">&#xE748;</sys:String>
+    <sys:String x:Key="Icon.Reparar">&#xE90F;</sys:String>
+    <sys:String x:Key="Icon.Exportar">&#xE8E5;</sys:String>
+    <sys:String x:Key="Icon.Descargar">&#xE802;</sys:String>
+    <sys:String x:Key="Icon.Subir">&#xE803;</sys:String>
+    <sys:String x:Key="Icon.Sincronizar">&#xE8EE;</sys:String>
+    <sys:String x:Key="Icon.Cambiar">&#xE8CB;</sys:String>
+    <sys:String x:Key="Icon.AnadirUsuario">&#xE8FA;</sys:String>
+
+    <!-- ===================== Flechas / navegación ===================== -->
+    <sys:String x:Key="Icon.Izquierda">&#xE76B;</sys:String>
+    <sys:String x:Key="Icon.Derecha">&#xE76C;</sys:String>
+    <sys:String x:Key="Icon.Arriba">&#xE70E;</sys:String>
+    <sys:String x:Key="Icon.Abajo">&#xE70D;</sys:String>
+    <sys:String x:Key="Icon.Menu">&#xE700;</sys:String>
+    <sys:String x:Key="Icon.Atras">&#xE72B;</sys:String>
+    <sys:String x:Key="Icon.Siguiente">&#xE72A;</sys:String>
+    <sys:String x:Key="Icon.Expandido">&#xE92D;</sys:String>
+
+    <!-- ===================== Estados / alertas ===================== -->
+    <sys:String x:Key="Icon.Advertencia">&#xE7BA;</sys:String>
+    <sys:String x:Key="Icon.Informacion">&#xE946;</sys:String>
+    <sys:String x:Key="Icon.Error">&#xE783;</sys:String>
+    <sys:String x:Key="Icon.Ayuda">&#xE9CE;</sys:String>
+    <sys:String x:Key="Icon.Bloqueo">&#xE72E;</sys:String>
+    <sys:String x:Key="Icon.Desbloqueo">&#xE785;</sys:String>
+    <sys:String x:Key="Icon.Escudo">&#xEA18;</sys:String>
+    <sys:String x:Key="Icon.Candado">&#xE72E;</sys:String>
+    <sys:String x:Key="Icon.Llave">&#xE8D7;</sys:String>
+    <sys:String x:Key="Icon.Huella">&#xE928;</sys:String>
+
+    <!-- ===================== Datos / contexto ===================== -->
+    <sys:String x:Key="Icon.Calendario">&#xE787;</sys:String>
+    <sys:String x:Key="Icon.Reloj">&#xE823;</sys:String>
+    <sys:String x:Key="Icon.Temporizador">&#xE916;</sys:String>
+    <sys:String x:Key="Icon.Ubicacion">&#xE819;</sys:String>
+    <sys:String x:Key="Icon.Correo">&#xE715;</sys:String>
+    <sys:String x:Key="Icon.Telefono">&#xE717;</sys:String>
+    <sys:String x:Key="Icon.Edificio">&#xE731;</sys:String>
+    <sys:String x:Key="Icon.Institucion">&#xE825;</sys:String>
+    <sys:String x:Key="Icon.Biomedico">&#xE95E;</sys:String>       <!-- corazon con pulso -->
+    <sys:String x:Key="Icon.Lista">&#xE9D5;</sys:String>
+    <sys:String x:Key="Icon.GraficaBarras">&#xE908;</sys:String>
+    <sys:String x:Key="Icon.GraficaLinea">&#xE9D9;</sys:String>
+    <sys:String x:Key="Icon.Cuadricula">&#xE80A;</sys:String>
+    <sys:String x:Key="Icon.Capa">&#xE81E;</sys:String>
+    <sys:String x:Key="Icon.Etiqueta">&#xE8EC;</sys:String>
+    <sys:String x:Key="Icon.Comentario">&#xE90A;</sys:String>
+    <sys:String x:Key="Icon.Anexo">&#xE723;</sys:String>
+    <sys:String x:Key="Icon.Envio">&#xE724;</sys:String>
+    <sys:String x:Key="Icon.Notificacion">&#xE781;</sys:String>
+    <sys:String x:Key="Icon.Modulo">&#xEA86;</sys:String>          <!-- pieza de rompecabezas -->
+    <sys:String x:Key="Icon.Tiempo">&#xE916;</sys:String>
+    <sys:String x:Key="Icon.Energia">&#xE945;</sys:String>
+    <sys:String x:Key="Icon.Estrella">&#xE735;</sys:String>
+    <sys:String x:Key="Icon.Papelera">&#xE74D;</sys:String>
+    <sys:String x:Key="Icon.Duplicar">&#xE923;</sys:String>
+    <sys:String x:Key="Icon.Gestion">&#xE9E9;</sys:String>         <!-- controles / sliders -->
+    <sys:String x:Key="Icon.Modulos">&#xEA86;</sys:String>
+
+</ResourceDictionary>

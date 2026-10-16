@@ -1,0 +1,227 @@
+<UserControl x:Class="SITBIO_Desktop.Views.FormulariosView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:FormulariosViewModel}"
+             xmlns:vm="clr-namespace:SITBIO_Desktop.ViewModels"
+             xmlns:ctrl="clr-namespace:SITBIO_Desktop.Controls"
+             d:DesignHeight="1250" d:DesignWidth="1240">
+
+    <UserControl.Resources>
+        <!-- Contenido del diálogo de alta: formulario dinámico nuevo -->
+        <DataTemplate DataType="{x:Type vm:FormularioDinamicoAlta}">
+            <StackPanel>
+                <TextBlock Text="Nombre del formulario" Style="{StaticResource Texto.Etiqueta}"/>
+                <TextBox Style="{StaticResource Campo}" Tag="&#xE729;"
+                         Text="{Binding Nombre, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Ej. Inspección de seguridad eléctrica"/>
+
+                <TextBlock Text="Categoría" Style="{StaticResource Texto.Etiqueta}" Margin="0,14,0,5"/>
+                <TextBox Style="{StaticResource Campo}" Tag="&#xE8EC;"
+                         Text="{Binding Categoria, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Ej. Seguridad, Mantenimiento, Activos, Calibración"/>
+
+                <TextBlock Text="Descripción" Style="{StaticResource Texto.Etiqueta}" Margin="0,14,0,5"/>
+                <TextBox Style="{StaticResource AreaTexto}" Height="84" Tag="&#xE90A;"
+                         Text="{Binding Descripcion, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Para qué sirve el formulario y cuándo se aplica"/>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="28,22,28,34">
+
+                <!-- ===================== Encabezado ===================== -->
+                <ctrl:PageHeader Titulo="Formularios dinámicos"
+                                 Subtitulo="Diseñe formularios de inspección y registro sin modificar el código (OBJ-06)"
+                                 Icono="&#xE729;"
+                                 Contador="{Binding Contador}"
+                                 NotaContador="{Binding NotaContador}">
+                    <ctrl:PageHeader.Acciones>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Style="{StaticResource Boton}" Padding="15,9"
+                                    Command="{Binding NuevoCommand}"
+                                    IsEnabled="{Binding PuedeEditarFormularios}"
+                                    ToolTip="Crea un formulario dinámico nuevo para la institución">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE710;" FontFamily="{StaticResource IconFont}" FontSize="14"
+                                               Margin="0,1,7,0"/>
+                                    <TextBlock Text="Nuevo formulario"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </ctrl:PageHeader.Acciones>
+                </ctrl:PageHeader>
+
+                <!-- ===================== Indicadores ===================== -->
+                <ItemsControl ItemsSource="{Binding Kpis}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="4"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:TarjetaKpi}">
+                            <ctrl:KpiCard Margin="0,0,14,0"
+                                          Titulo="{Binding Titulo}"
+                                          Valor="{Binding Valor}"
+                                          Unidad="{Binding Unidad}"
+                                          Icono="{Binding Icono}"
+                                          IconoColor="{Binding IconoColor}"
+                                          IconoFondo="{Binding IconoFondo}"
+                                          DeltaTexto="{Binding Delta}"
+                                          DeltaIcono="{Binding DeltaIcono}"
+                                          DeltaColor="{Binding DeltaColor}"
+                                          DeltaFondo="{Binding DeltaFondo}"
+                                          Leyenda="{Binding Leyenda}"
+                                          Ayuda="{Binding Ayuda}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- ===================== Búsqueda y filtro ===================== -->
+                <Border Style="{StaticResource Tarjeta}" Padding="16,14" Margin="0,18,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Style="{StaticResource Campo}" Tag="&#xE721;"
+                                 Text="{Binding Busqueda, UpdateSourceTrigger=PropertyChanged}"
+                                 ToolTip="Buscar por nombre, categoría o descripción"/>
+
+                        <ComboBox Grid.Column="1" Style="{StaticResource Selector}" Margin="10,0"
+                                  ItemsSource="{Binding EstadosFiltro}"
+                                  SelectedItem="{Binding EstadoFiltro}"
+                                  ToolTip="Filtrar los formularios por estado"/>
+
+                        <Button Grid.Column="2" Style="{StaticResource Boton.Contorno}"
+                                Command="{Binding LimpiarFiltrosCommand}" Content="Limpiar"
+                                ToolTip="Restablece la búsqueda y el filtro de estado"/>
+                    </Grid>
+                </Border>
+
+                <!-- ===================== Catálogo ===================== -->
+                <Border Style="{StaticResource Tarjeta}" Padding="20,16,20,8">
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+                            <TextBlock Text="Catálogo de formularios" Style="{StaticResource Texto.Tarjeta}"/>
+                            <TextBlock Text="Edite la estructura en el constructor o dé de baja un formulario; toda escritura queda en la bitácora"
+                                       Style="{StaticResource Texto.Auxiliar}" Margin="0,4,0,0"/>
+                        </StackPanel>
+
+                        <Grid>
+                            <DataGrid ItemsSource="{Binding Formularios}" MaxHeight="560">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="1.4*" Header="NOMBRE" Binding="{Binding Nombre}"/>
+
+                                    <DataGridTemplateColumn Width="2*" Header="CATEGORÍA / DESCRIPCIÓN">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Margin="0,0,10,0">
+                                                    <TextBlock Text="{Binding Categoria}" FontWeight="SemiBold"
+                                                               FontSize="12.5"/>
+                                                    <TextBlock Text="{Binding Descripcion}" FontSize="11"
+                                                               Foreground="{StaticResource TextMutedBrush}"
+                                                               TextTrimming="CharacterEllipsis"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTextColumn Width="86" Header="CAMPOS" Binding="{Binding TotalCampos}"/>
+                                    <DataGridTextColumn Width="120" Header="OBLIGATORIOS" Binding="{Binding CamposRequeridos}"/>
+                                    <DataGridTextColumn Width="86" Header="VERSIÓN" Binding="{Binding Version}"/>
+
+                                    <DataGridTemplateColumn Width="104" Header="ESTADO">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Border Style="{StaticResource Chip}" BorderThickness="1"
+                                                            Background="{StaticResource SuccessSoftBrush}"
+                                                            BorderBrush="{StaticResource SuccessBrush}"
+                                                            Visibility="{Binding Activo, Converter={StaticResource CvtBoolVisible}}">
+                                                        <TextBlock Text="Activo" Style="{StaticResource Chip.Texto}"
+                                                                   Foreground="{StaticResource SuccessBrush}"/>
+                                                    </Border>
+                                                    <Border Style="{StaticResource Chip}" BorderThickness="1"
+                                                            Background="{StaticResource SurfaceAltBrush}"
+                                                            BorderBrush="{StaticResource BorderStrongBrush}"
+                                                            Visibility="{Binding Activo, Converter={StaticResource CvtNoBoolVisible}}">
+                                                        <TextBlock Text="Inactivo" Style="{StaticResource Chip.Texto}"
+                                                                   Foreground="{StaticResource TextMutedBrush}"/>
+                                                    </Border>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTextColumn Width="126" Header="APLICACIONES" Binding="{Binding Aplicaciones}"/>
+                                    <DataGridTextColumn Width="116" Header="FECHA">
+                                        <DataGridTextColumn.Binding>
+                                            <Binding Path="FechaCreacion" StringFormat="dd MMM yyyy"/>
+                                        </DataGridTextColumn.Binding>
+                                    </DataGridTextColumn>
+
+                                    <DataGridTemplateColumn Width="132" Header="ACCIONES">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <Button Style="{StaticResource Boton.Icono.Contorno}" Padding="6"
+                                                            Margin="0,0,6,0" ToolTip="Ver el formulario en el constructor"
+                                                            Command="{Binding DataContext.VerCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            CommandParameter="{Binding}">
+                                                        <TextBlock Text="&#xE8A7;" FontFamily="{StaticResource IconFont}" FontSize="13"/>
+                                                    </Button>
+                                                    <Button Style="{StaticResource Boton.Icono.Contorno}" Padding="6"
+                                                            Margin="0,0,6,0" ToolTip="Editar la estructura del formulario"
+                                                            Command="{Binding DataContext.EditarCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            CommandParameter="{Binding}">
+                                                        <TextBlock Text="&#xE70F;" FontFamily="{StaticResource IconFont}" FontSize="13"/>
+                                                    </Button>
+                                                    <Button Style="{StaticResource Boton.Icono.Contorno}" Padding="6"
+                                                            ToolTip="Eliminar el formulario de la institución"
+                                                            Command="{Binding DataContext.EliminarCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            CommandParameter="{Binding}">
+                                                        <TextBlock Text="&#xE74D;" FontFamily="{StaticResource IconFont}" FontSize="13"
+                                                                   Foreground="{StaticResource DangerBrush}"/>
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <ctrl:EmptyState Icono="&#xE721;" Titulo="Sin formularios para mostrar"
+                                             Mensaje="No hay formularios que coincidan con la búsqueda ni con el filtro de estado seleccionado."
+                                             TextoAccion="Nuevo formulario"
+                                             AccionCommand="{Binding NuevoCommand}"
+                                             Visibility="{Binding Formularios, Converter={StaticResource CvtColeccionVacia}}"/>
+                        </Grid>
+                    </DockPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Diálogo modal: alta / confirmación de baja -->
+        <ctrl:Dialogo Visible="{Binding DialogoAbierto}"
+                      Titulo="{Binding DialogoTitulo}"
+                      Subtitulo="{Binding DialogoSubtitulo}"
+                      Icono="{Binding DialogoIcono}"
+                      Ancho="560"
+                      Contenido="{Binding ContenidoDialogo}"
+                      TextoConfirmar="{Binding DialogoTextoConfirmar}"
+                      TextoCancelar="{Binding DialogoTextoCancelar}"
+                      EsPeligro="{Binding DialogoEsPeligro}"
+                      ConfirmarCommand="{Binding GuardarCommand}"
+                      CancelarCommand="{Binding CancelarCommand}"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,40 @@
+<UserControl x:Class="SITBIO_Desktop.Controls.EmptyState"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="520">
+
+    <Border Style="{StaticResource Tarjeta}" Padding="36,44">
+        <StackPanel HorizontalAlignment="Center">
+            <Border Width="72" Height="72" CornerRadius="24" HorizontalAlignment="Center"
+                    Background="{Binding IconoFondo, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <TextBlock Text="{Binding Icono, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                           FontFamily="{StaticResource IconFont}" FontSize="30"
+                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock.Foreground>
+                        <SolidColorBrush Color="{Binding IconoColor, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                    </TextBlock.Foreground>
+                </TextBlock>
+            </Border>
+
+            <TextBlock Text="{Binding Titulo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                       FontSize="16" FontWeight="SemiBold" Margin="0,18,0,0"
+                       Foreground="{StaticResource TextPrimaryBrush}"
+                       HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+            <TextBlock Text="{Binding Mensaje, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                       FontSize="13" Margin="0,7,0,0" LineHeight="21"
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"
+                       MaxWidth="440"/>
+
+            <Button Style="{StaticResource Boton.Secundario}" Margin="0,20,0,0" Padding="15,9"
+                    HorizontalAlignment="Center"
+                    Command="{Binding AccionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    CommandParameter="{Binding AccionParametro, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    Content="{Binding TextoAccion, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    Visibility="{Binding TextoAccion, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource CvtTextoVisible}}"/>
+        </StackPanel>
+    </Border>
+</UserControl>
