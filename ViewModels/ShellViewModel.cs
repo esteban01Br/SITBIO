@@ -109,7 +109,7 @@ public partial class ShellViewModel : ObservableObject
 
             new() { Ruta = Rutas.Equipos, Titulo = "Equipos biomédicos", Icono = "\uE912", Area = AreaAplicacion.Equipos, Grupo = act, Orden = 4 },
             new() { Ruta = Rutas.Calibraciones, Titulo = "Calibraciones", Icono = "\uE916", Area = AreaAplicacion.Equipos, EnDesarrollo = true, Grupo = act, Orden = 5 },
-            new() { Ruta = Rutas.Inventario, Titulo = "Inventario de repuestos", Icono = "\uE7B8", Area = AreaAplicacion.Equipos, EnDesarrollo = true, Grupo = act, Orden = 6 },
+            new() { Ruta = Rutas.Inventario, Titulo = "Inventario de repuestos", Icono = "\uE8EC", Area = AreaAplicacion.Equipos, EnDesarrollo = true, Grupo = act, Orden = 6 },
 
             new() { Ruta = Rutas.Reportes, Titulo = "Reportes e indicadores", Icono = "\uE9F9", Area = AreaAplicacion.Reportes, Grupo = ana, Orden = 7 },
             new() { Ruta = Rutas.Formularios, Titulo = "Formularios dinámicos", Icono = "\uE729", Area = AreaAplicacion.Formularios, Grupo = ana, Orden = 8 },

@@ -11,6 +11,22 @@
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="AVisibilidad"/>
+
+        <!-- Plantilla de las filas del menú: ContentPresenter con Stretch para que
+             la fila se mida con ancho disponible (recorta textos largos) y quede
+             alineada a la izquierda en todos los módulos -->
+        <ControlTemplate x:Key="PlantillaMenu" TargetType="Button">
+            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                              RecognizesAccessKey="True"/>
+        </ControlTemplate>
+
+        <Style x:Key="BotonMenu" TargetType="Button" BasedOn="{StaticResource Boton}">
+            <Setter Property="Template" Value="{StaticResource PlantillaMenu}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -102,25 +118,37 @@
                     <ItemsControl ItemsSource="{Binding Menu}" Margin="0,0,0,0">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type vm:NavGrupo}">
-                                <StackPanel Margin="0,10,0,0">
-                                    <TextBlock Text="{Binding Titulo}" FontSize="10" FontWeight="SemiBold"
+                                <StackPanel Margin="0,8,0,0">
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Setter Property="Margin" Value="0,16,0,0"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DataContext.MenuAbierto, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="False">
+                                                    <Setter Property="Margin" Value="0,8,0,0"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+                                    <TextBlock Text="{Binding Titulo}" FontSize="9.5" FontWeight="SemiBold"
                                                Foreground="{StaticResource TextMutedBrush}"
-                                               Margin="22,0,0,8"
+                                               Margin="22,0,0,7"
                                                Visibility="{Binding DataContext.MenuAbierto, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource AVisibilidad}}"/>
                                     <ItemsControl ItemsSource="{Binding Items}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate DataType="{x:Type vm:NavItem}">
-                                                <Button Style="{StaticResource Boton.Fantasma}"
-                                                        Padding="0" Margin="8,1" HorizontalAlignment="Stretch"
+                                                <Button Style="{StaticResource BotonMenu}"
+                                                        Margin="8,1" HorizontalAlignment="Stretch"
                                                         Command="{Binding DataContext.NavegarCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                         CommandParameter="{Binding}">
                                                     <Border x:Name="Fondo" CornerRadius="9" Padding="13,10"
                                                             HorizontalAlignment="Stretch"
-                                                            Background="Transparent"
-                                                            BorderBrush="Transparent" BorderThickness="3,0,0,0">
+                                                            BorderThickness="3,0,0,0">
                                                         <Border.Style>
                                                             <Style TargetType="Border">
                                                                 <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                                                        <Setter Property="Background" Value="{StaticResource SurfaceAltBrush}"/>
+                                                                    </DataTrigger>
                                                                     <DataTrigger Binding="{Binding Activo}" Value="True">
                                                                         <Setter Property="Background" Value="{StaticResource PrimarySoftBrush}"/>
                                                                         <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
@@ -153,7 +181,7 @@
                                                             </TextBlock>
 
                                                             <TextBlock Grid.Column="1" Text="{Binding Titulo}"
-                                                                       FontSize="13" Margin="11,0,0,0"
+                                                                       FontSize="13" Margin="11,0,0,0" MinWidth="0"
                                                                        VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
                                                                        Visibility="{Binding DataContext.MenuAbierto, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource AVisibilidad}}">
                                                                 <TextBlock.Style>
@@ -169,12 +197,12 @@
                                                                 </TextBlock.Style>
                                                             </TextBlock>
 
-                                                            <Grid Grid.Column="2" Margin="5,0,0,0"
+                                                            <Grid Grid.Column="2" Margin="6,0,0,0" VerticalAlignment="Center"
                                                                   Visibility="{Binding DataContext.MenuAbierto, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource AVisibilidad}}">
                                                                 <Border Background="{StaticResource WarningSoftBrush}"
                                                                         CornerRadius="5" Padding="5,2"
                                                                         Visibility="{Binding EnDesarrollo, Converter={StaticResource AVisibilidad}}">
-                                                                    <TextBlock Text="próximamente" FontSize="8.5"
+                                                                    <TextBlock Text="próximamente" FontSize="8"
                                                                                Foreground="{StaticResource WarningBrush}"/>
                                                                 </Border>
                                                             </Grid>
