@@ -4,7 +4,9 @@ Aplicación de **escritorio** para la gestión de mantenimiento de equipos biom�
 instituciones de salud. Construida en **C# / .NET 10 / WPF** con el patrón **MVVM**.
 
 > Fase 1 (esta entrega): interfaz completa de 15 módulos con datos demo en memoria.
-> Fase 2 (siguiente): base de datos con **EF Core + PostgreSQL** (el plan completo está en la sección 4).
+> Fase 2 (siguiente): backend **API REST ASP.NET Core** con persistencia híbrida
+> **PostgreSQL + MongoDB** según la arquitectura oficial ADSO-ARQ-01 (plan en la sección 4;
+> documento fuente en `docs/arquitectura/`).
 
 ---
 
@@ -19,7 +21,7 @@ instituciones de salud. Construida en **C# / .NET 10 / WPF** con el patrón **MV
 7. [Reglas del negocio (metodología)](#7-reglas-del-negocio-metodología)
 8. [Diseño y tema visual](#8-diseño-y-tema-visual)
 9. [Bugs corregidos durante el desarrollo](#9-bugs-corregidos-durante-el-desarrollo)
-10. [Git: cómo trabajar con el repositorio](#10-git-cómo-trabajar-con-el-repositorio)
+10. [Git: flujo GitFlow y buenas prácticas](#10-git-flujo-gitflow-y-buenas-prácticas)
 11. [Siguientes pasos](#11-siguientes-pasos)
 
 ---
@@ -124,7 +126,7 @@ En la fase 1 los datos viven **en memoria RAM**:
 
 ```
 ViewModels  ──usan──▶  IRepositorioDatos (interfaz)  ◀──implementa──  DemoDataProvider  (HOY: memoria)
-                                                    ◀──implementará── RepositorioEFCore (FASE 2: PostgreSQL)
+                                                    ◀──implementará── RepositorioApi (FASE 2: API REST → PostgreSQL + MongoDB)
 ```
 
 Puntos clave del diseño:
@@ -132,7 +134,7 @@ Puntos clave del diseño:
 - **Un único punto de inyección**: `Core/AppServicios.cs`, método `Inicializar()`:
 
   ```csharp
-  Datos = new DemoDataProvider();   // ← fase 2: new RepositorioEFCore(contexto)
+  Datos = new DemoDataProvider();   // ← fase 2/3: new RepositorioApi(...) contra la API REST
   ```
 
 - **Aislamiento por tenant en la interfaz**: todos los métodos de consulta filtran por institución
@@ -143,44 +145,54 @@ Puntos clave del diseño:
 - **Auditoría por evento**: toda escritura pasa por `AgregarAuditoria`; en la BD será una tabla
   **append-only** (solo INSERT, nunca UPDATE ni DELETE).
 - **Estadísticas del panel** (`Indicadores`, `SerieMantenimientos`, `DistribucionPorEstado`, …)
-  quedarán como consultas LINQ → SQL.
+  se calcularán en el backend (consultas en PostgreSQL) y el cliente solo las consume.
 - El propio `AppServicios` está comentado para indicar que allí se sustituirá por un contenedor DI real cuando
   llegue EF Core, **sin tocar los ViewModels**.
 
-### 4.4 Plan de la fase 2: Entity Framework Core + PostgreSQL
+### 4.4 Plan de datos según la arquitectura oficial (ADSO-ARQ-01)
 
-Pasos concretos (cuando se apruebe la fase de datos):
+> Documento fuente: `docs/arquitectura/Arquitectura_Datos_y_Diseno_Tecnico_ADSO_SENA_APA7_v1.docx`
+> (equipo ADSO, aprobado el 19/10/2026). Incluye diagramas C4, las decisiones ADR-001..003 y
+> los lineamientos de seguridad SEC-001..004.
 
-1. **Instalar PostgreSQL 16** y crear la base `sitbio` (y un usuario dedicado).
-2. **Paquetes NuGet**:
-   - `Npgsql.EntityFrameworkCore.PostgreSQL` (proveedor)
-   - `Microsoft.EntityFrameworkCore.Design` (migraciones)
-3. **Mapear `Models/` a entidades**: agregar claves primarias, relaciones y la columna
-   `tenant_id` en **todas** las tablas (`Equipo`, `OrdenTrabajo`, `Intervencion`, `Usuario`,
-   `Tecnico`, `FormularioDinamico`, `EventoAuditoria`, `Institucion`, `Notificacion`).
-4. **Crear `SITBIOContext : DbContext`** con sus `DbSet<T>` y configuración Fluent API
-   (índice único del código de orden por tenant, precisión decimal de costos, etc.).
-5. **Migraciones**:
-   ```powershell
-   dotnet ef migrations add Inicial
-   dotnet ef database update
-   ```
-6. **Semilla (seed)**: portar la siembra de `DemoDataProvider` a `HasData` o a un inicializador
-   para que la BD arranque con los mismos datos demo.
-7. **Implementar `RepositorioEFCore : IRepositorioDatos`** con consultas LINQ filtrando siempre
-   por `tenantId`.
-8. **Cambiar una línea** en `AppServicios.Inicializar()` (o migrar a DI real:
-   `services.AddDbContext<SITBIOContext>(...)` + inyección por constructor).
-9. **Los ViewModels no se modifican**: dependen de la interfaz, no de la implementación.
+La arquitectura aprobada es **cliente–servidor con persistencia híbrida**:
 
-Detalles recomendados de la BD:
+| Capa | Tecnología | Responsabilidad |
+|---|---|---|
+| Cliente | WPF + MVVM (este proyecto) | solo presentación; **prohibido** escribir SQL o acceder a la BD desde las vistas |
+| API REST | ASP.NET Core 8 Web API | autenticación **JWT** (HS256, 30 min, claims `id_usuario`/`tenant_id`/`rol`), contraseñas con **BCrypt** (cost ≥ 11), RBAC y filtrado obligatorio por `tenant_id` |
+| SQL | **PostgreSQL 16** + EF Core | `TENANT`, `USUARIO`, `EQUIPO_BIOMEDICO`, `ORDEN_TRABAJO`: datos rígidos y transaccionales, llaves UUID, índices únicos compuestos (`tenant_id,numero_serie`, `tenant_id,correo`) y borrado lógico |
+| NoSQL | **MongoDB 7** (BSON) | `intervenciones` (con `camposDinamicos{}`), `configuracion_campos` y `bitacora_auditoria`: estructura flexible, validación con JSON Schema e índices (p. ej. `{tenant_id, equipo_id}`) |
+| Analítica | Python 3.12 (PyMongo, Pandas, Scikit-learn) | pipeline **K-Means** de agrupación de mantenimientos (ADR-003) expuesto en `/api/v1/analytics/kmeans` |
 
-- **Por qué PostgreSQL**: es libre (sin licencias), robusto, y su columna **`jsonb`** sirve perfecto
-  para los **campos dinámicos** de los formularios y de los equipos. EF Core permite cambiar a
-  SQL Server después cambiando solo el proveedor.
-- **Auditoría inmutable**: enforce en la capa de datos (solo `Add`), además del trigger de BD opcional.
-- **Multi-tenant**: `tenant_id` con índice en cada tabla; opcionalmente *Row Level Security* de PostgreSQL.
-- **Borrado lógico** para equipos/órdenes (auditoría exige trazabilidad).
+**¿Por qué híbrido (ADR-002)?** Las entidades rígidas y transaccionales van a SQL con ACID y
+aislamiento multi-tenant; las intervenciones, cuyos campos varían según el tipo de equipo, van a
+documentos MongoDB **sin alterar el esquema relacional**.
+
+**Cómo llega esto al cliente WPF sin reescribir la aplicación:**
+
+1. El cliente **no** hablará con la base de datos: consumirá la API REST (`/api/v1/...`)
+   con el token JWT en la cabecera `Authorization: Bearer ...`.
+2. `AppServicios.Inicializar()` reemplazará `DemoDataProvider` por un
+   `RepositorioApi : IRepositorioDatos` (HttpClient + JSON) → **los ViewModels no se modifican**
+   porque siguen hablando con la misma interfaz.
+3. Del lado del backend (carpeta futura `/src/backend`): `SITBIOContext` con EF Core y
+   migraciones contra PostgreSQL, siembra equivalente a `DemoDataProvider`, middleware JWT/RBAC
+   y servicio de intervenciones sobre MongoDB.
+4. Seguridad (SEC-003): el filtro `tenant_id` se aplica **siempre en el servidor**, errores en
+   formato ProblemDetails (RFC 7807) y CORS/HTTPS en cada ambiente (DEV/QA/PROD con sus
+   `appsettings`).
+5. Auditoría inmutable: colección `bitacora_auditoria` de MongoDB con retención de 1 año; en
+   PostgreSQL, borrado lógico en las tablas transaccionales.
+6. Respaldos: `pg_dump` + `mongodump` diarios (RPO 24 h / RTO 30 min) y cumplimiento de la
+   Ley 1581 de 2012 (Habeas Data) para datos de pacientes.
+
+**Secuencia de fases:** **(2)** backend API + PostgreSQL con EF Core y JWT → **(3)** MongoDB de
+intervenciones, formularios y bitácora → **(4)** pipeline Python con K-Means → **(5)**
+endurecimiento (rate limiting, refresh tokens, índices de volumen y retención de datos).
+
+**Volumen de diseño:** 20 usuarios concurrentes por tenant, hasta 5.000 equipos y más de 500
+órdenes de trabajo al mes por institución.
 
 ---
 
@@ -374,33 +386,70 @@ Disponibilidad, MTBF, MTTR, cumplimiento de SLA, preventivos vencidos y costos m
 
 ---
 
-## 10. Git: cómo trabajar con el repositorio
+## 10. Git: flujo GitFlow y buenas prácticas
 
-- **Repositorio**: `https://github.com/esteban01Br/SITBIO.git` (rama `main`).
-- **`.gitignore`**: excluye `bin/`, `obj/` y `.vs/` (nunca subir artefactos de compilación).
+- **Repositorio**: `https://github.com/esteban01Br/SITBIO.git`
+- **Ramificación** (según la sección 14.1 de la arquitectura oficial):
 
-Flujo básico para subir cambios:
+| Rama | Para qué sirve | Regla |
+|---|---|---|
+| `main` | entregas / producción | **protegida: no se le hace push directo**; solo recibe cambios desde `develop` mediante Pull Request |
+| `develop` | integración del trabajo diario | aquí convergen todas las tareas |
+| `feature/<tarea>` | una tarea a la vez | nace de `develop` y se mergea a `develop` con PR |
+| `release/*`, `hotfix/*` | preparar entrega / arreglo urgente | futuras, cuando existan entregas versionadas |
+
+**Flujo paso a paso (ejemplo con una tarea):**
 
 ```powershell
 cd "C:\Users\Sena\Downloads\Enterprise Healthcare SaaS UI\SITBIO-Desktop"
-git status                 # ver qué cambió
-git add .                  # preparar los cambios
-git commit -m "mensaje"    # guardar una versión local
-git push                   # subirla a GitHub
+git checkout develop
+git pull
+git checkout -b feature/base-datos-postgresql
+# ... trabajar ...
+git add Services/RepositorioApi.cs      # agregar SOLO los archivos de la tarea
+git commit -m "feat(datos): repositorio que consume la API REST"
+git push -u origin feature/base-datos-postgresql
+# Abrir el PR feature/... → develop en GitHub, revisar y mergear.
 ```
 
-Si `git push` muestra texto en rojo en PowerShell: es normal (git escribe el progreso en *stderr*);
-verifica con `git ls-remote origin main`.
+**Mensajes de commit (Conventional Commits, en español):**
+
+| Tipo | Uso | Ejemplo |
+|---|---|---|
+| `feat` | nueva funcionalidad | `feat(kanban): columna de verificación con contador` |
+| `fix` | corrección de error | `fix(login): validación de contraseña multi-tenant` |
+| `docs` | documentación | `docs(readme): flujo GitFlow y arquitectura oficial` |
+| `refactor` | reestructurar sin cambiar el comportamiento | `refactor(shell): plantilla propia del menú lateral` |
+| `test`, `chore`, `style` | pruebas, soporte y formato | `chore: gitattributes para finales de línea` |
+
+Reglas: asunto en **imperativo** y ≤ 72 caracteres sin punto final; **un commit = una idea**;
+revisar con `git status` y `git diff` **antes** de `git add` (evitar `git add -A` automático).
+
+**Proteger `main` en GitHub** (la CLI `gh` no está instalada, se hace en la web):
+*Settings → Branches → Add branch protection rule* con `main` → activar
+**Only allow pull requests to merge into this branch** (y opcionalmente
+*Require status checks* cuando exista CI con GitHub Actions).
+
+Otras buenas prácticas ya aplicadas en el repo: `.gitignore` (excluye `bin/`, `obj/`, `.vs/`) y
+`.gitattributes` (`* text=auto`: LF en el repositorio, CRLF solo en Windows).
+
+> Nota: `git push` escribe su progreso en *stderr*; en PowerShell puede verse en rojo aunque
+> funciona correctamente — verificar con `git ls-remote origin <rama>`.
 
 ---
 
 ## 11. Siguientes pasos
 
-1. **Fase 2 — Base de datos**: ejecutar el plan de la sección 4.4 (EF Core + PostgreSQL +
-   semilla + `RepositorioEFCore`), sin tocar los ViewModels.
-2. **Módulos "próximamente"**: Calibraciones e inventario de repuestos.
-3. **DI real**: sustituir el localizador `AppServicios` por `Microsoft.Extensions.Hosting`
-   al integrar EF Core (ya está previsto en los comentarios del código).
+1. **Fase 2 — Backend**: API REST ASP.NET Core 8 (JWT + RBAC) + PostgreSQL 16 con EF Core,
+   reutilizando la siembra de `DemoDataProvider` como seed (sección 4.4).
+2. **Cliente**: implementar `RepositorioApi : IRepositorioDatos` y sustituirlo en
+   `AppServicios.Inicializar()` — sin tocar los ViewModels.
+3. **Fase 3 — MongoDB**: intervenciones con `camposDinamicos`, configuración de formularios y
+   bitácora de auditoría.
+4. **Fase 4 — Analítica**: pipeline Python con K-Means y estructura del repositorio
+   `/src/client`, `/src/backend`, `/src/analytics`, `/docs`, `/tests` (sección 14.1 del
+   documento de arquitectura).
+5. **Módulos "próximamente"**: Calibraciones e inventario de repuestos.
 
 ---
 
