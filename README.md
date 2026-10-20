@@ -3,10 +3,11 @@
 Aplicación de **escritorio** para la gestión de mantenimiento de equipos biomédicos en
 instituciones de salud. Construida en **C# / .NET 10 / WPF** con el patrón **MVVM**.
 
-> Fase 1 (esta entrega): interfaz completa de 15 módulos con datos demo en memoria.
-> Fase 2 (siguiente): backend **API REST ASP.NET Core** con persistencia híbrida
-> **PostgreSQL + MongoDB** según la arquitectura oficial ADSO-ARQ-01 (plan en la sección 4;
-> documento fuente en `docs/arquitectura/`).
+> **Estado actual (fase 2, completada)**: backend **API REST ASP.NET Core 8** + **PostgreSQL 16**
+> en Docker (`src/backend/SITBIO.Api/`, JWT + BCrypt + RBAC + aislamiento por tenant) y cliente
+> WPF conectado mediante un interruptor **Demo/Api** (`RepositorioApi` + `sitbio.config.json`).
+> Fase 3 (MongoDB de intervenciones/formularios/auditoría) según la arquitectura oficial
+> ADSO-ARQ-01 (plan en la sección 4; documento fuente en `docs/arquitectura/`).
 
 ---
 
@@ -49,19 +50,46 @@ RBAC multi-tenant, código único, kanban, auditoría inmutable y exportación P
 ## 2. Cómo ejecutarla
 
 **Requisitos**: Windows 10/11 y el **.NET 10 SDK** instalado (o Visual Studio con soporte .NET 10).
+Para el **modo Api** se necesita además **Docker Desktop** (PostgreSQL corre en contenedor).
 
-### Opción A — línea de comandos
+### Modo Demo (por defecto) — sin servidor ni base de datos
 
 ```powershell
 cd "C:\Users\Sena\Downloads\Enterprise Healthcare SaaS UI\SITBIO-Desktop"
-dotnet run
+dotnet run --project src/client/SITBIO-Desktop.csproj
 ```
 
-### Opción B — Visual Studio
+### En Visual Studio
 
-Abrir `SITBIO-Desktop.csproj` y presionar **F5**.
+Abrir `SITBIO.sln` (o `src/client/SITBIO-Desktop.csproj`) y presionar **F5**.
 
-> No necesita internet, ni servidor, ni base de datos instalada: arranca directo con datos demo.
+> Con la configuración por defecto (`"ModoDatos": "Demo"` en `src/client/sitbio.config.json`)
+> arranca directo con datos demo en memoria: no necesita internet, servidor ni base de datos.
+
+### Modo Api — API REST + PostgreSQL (fase 2)
+
+```powershell
+# 1) Base de datos (una sola vez por equipo):
+docker run -d --name sitbio-pg -p 5433:5432 `
+  -e POSTGRES_USER=sitbio_dev -e POSTGRES_PASSWORD=sitbio_dev -e POSTGRES_DB=sitbio `
+  -v sitbio-pgdata:/var/lib/postgresql/data postgres:16
+# (si el contenedor ya existe: docker start sitbio-pg)
+
+# 2) API REST — http://localhost:5088 (Swagger en /swagger):
+dotnet run --project src/backend/SITBIO.Api
+
+# 3) Cliente en modo Api, sin tocar archivos:
+$env:SITBIO_MODO = "Api"
+dotnet run --project src/client/SITBIO-Desktop.csproj
+```
+
+Otro camino (persistente): editar `src/client/sitbio.config.json` y poner `"ModoDatos": "Api"`.
+La variable `SITBIO_URL_API` cambia la URL del backend (por defecto `http://localhost:5088`).
+
+> En modo Api los datos **persisten** en PostgreSQL, el login usa **BCrypt + JWT**, cada
+> escritura se sirve desde la API (PUT/POST/DELETE) y la sesión queda atada a su
+> institución: para operar sobre otra hay que cerrar sesión y volver a entrar.
+> Si la API no responde, la app sigue operativa y muestra un aviso en lugar de cerrarse.
 
 ### Credenciales de demostración
 
@@ -92,6 +120,9 @@ multi-tenant (`admin2@sitbio.com`, `admin3@sitbio.com`, etc. con la misma lógic
 | CommunityToolkit.Mvvm | 8.4.2 | MVVM: `[ObservableProperty]`, `[RelayCommand]` |
 | ClosedXML | 0.105.1 | exportación a **Excel** |
 | QuestPDF | 2026.9.1 | exportación a **PDF** |
+| ASP.NET Core Web API | 8 (`net8.0`) | backend REST: JWT, BCrypt, Swagger, RBAC |
+| EF Core + Npgsql | 8.0.x | ORM y migraciones contra PostgreSQL |
+| PostgreSQL | 16 (Docker, puerto **5433**) | base de datos del modo Api (BD `sitbio`) |
 | Segoe MDL2 Assets | fuente del sistema | iconografía (`&#xE710;`, ``, …) |
 
 No hay React, Node, npm ni web: es **solo C#/.NET**, como se pidió para esta fase.
@@ -102,18 +133,28 @@ No hay React, Node, npm ni web: es **solo C#/.NET**, como se pidió para esta fa
 
 ### 4.1 ¿Qué base de datos se está utilizando?
 
-**Ninguna todavía — y esa es una decisión de diseño, no un olvido.**
+**Depende del interruptor `ModoDatos` (fase 2): `Demo` por defecto, `Api` para PostgreSQL.**
 
-En la fase 1 los datos viven **en memoria RAM**:
+En **modo Demo** los datos viven **en memoria RAM**:
 
-- `Services/DemoDataProvider.cs` implementa la interfaz `IRepositorioDatos` usando
+- `src/client/Services/DemoDataProvider.cs` implementa la interfaz `IRepositorioDatos` usando
   `List<Equipo>`, `List<OrdenTrabajo>`, `List<Usuario>`, etc.
 - Al arrancar la app, el `DemoDataProvider` **siembra** los datos de demostración
   (métodos `SembrarEquipos`, `SembrarOrdenes`, `SembrarUsuarios`, `SembrarTecnicos`, …):
   3 instituciones, ~35 equipos, ~120 órdenes, técnicos, formularios, usuarios y bitácora.
 - Al cerrar la app **todo se pierde**: los altas, ediciones y borrados hechos durante la sesión no persisten.
-- No hay `connection string`, no hay paquetes de Entity Framework, y **no hay que instalar PostgreSQL**
-  para correr el proyecto.
+- No hay `connection string` ni PostgreSQL: es el modo que arranca en cualquier equipo sin instalar nada.
+
+En **modo Api** (fase 2b) los mismos datos viven en **PostgreSQL 16** y viajan por HTTP:
+
+- `src/client/Services/RepositorioApi.cs` implementa la misma interfaz con `HttpClient` +
+  el JWT de `POST /api/v1/auth/login`; las escrituras hacen PUT/POST/DELETE contra la API
+  y las lecturas se cachean por sesión (se invalidan en cada escritura).
+- El backend (`src/backend/SITBIO.Api/`) usa EF Core + `SITBIOContext`, **migraciones
+  automáticas al arrancar** (`MigrateAsync`) y una siembra equivalente (`Data/SemillaDatos.cs`)
+  que solo se ejecuta si las tablas están vacías.
+- La conexión apunta a `localhost:5433` (contenedor Docker `sitbio-pg`); los usuarios,
+  contraseñas (BCrypt) y roles son los mismos de la tabla de la sección 2.
 
 ### 4.2 ¿Por qué se hizo así?
 
@@ -122,19 +163,23 @@ En la fase 1 los datos viven **en memoria RAM**:
    concreta. Cambiar la base de datos es cambiar **una línea** (ver 4.4).
 3. **Arranque cero**: el proyecto compila y corre en cualquier computador sin instalar nada extra.
 
-### 4.3 Cómo quedó preparado el cambio
+### 4.3 Cómo quedó preparado el cambio (y ya aplicado en la fase 2)
 
 ```
-ViewModels  ──usan──▶  IRepositorioDatos (interfaz)  ◀──implementa──  DemoDataProvider  (HOY: memoria)
-                                                    ◀──implementará── RepositorioApi (FASE 2: API REST → PostgreSQL + MongoDB)
+ViewModels  ──usan──▶  IRepositorioDatos (interfaz)  ◀──implementa──  DemoDataProvider  (Demo: memoria)
+                                                    ◀──implementa──  RepositorioApi    (Api: HTTP + JWT → API REST → PostgreSQL)
 ```
 
 Puntos clave del diseño:
 
-- **Un único punto de inyección**: `Core/AppServicios.cs`, método `Inicializar()`:
+- **Un único punto de inyección**: `src/client/Core/AppServicios.cs`, método `Inicializar()`
+  lee `sitbio.config.json` y elige el implementante:
 
   ```csharp
-  Datos = new DemoDataProvider();   // ← fase 2/3: new RepositorioApi(...) contra la API REST
+  var cfg = ConfiguracionCliente.Cargar();
+  Datos = cfg.Modo == ModoDatos.Api
+      ? new RepositorioApi(cfg.UrlApi)   // fase 2: API REST + JWT
+      : new DemoDataProvider();          // modo por defecto
   ```
 
 - **Aislamiento por tenant en la interfaz**: todos los métodos de consulta filtran por institución
@@ -202,33 +247,42 @@ endurecimiento (rate limiting, refresh tokens, índices de volumen y retención 
 y el **modelo/servicios** (datos y reglas). La vista nunca "sabe" de dónde vienen los datos.
 
 ```
-SITBIO-Desktop/
-├── App.xaml / App.xaml.cs        → arranque: cultura es-CO, servicios, DataTemplates y rutas
-├── MainWindow.xaml               → contenedor de la ventana (aloja el Shell)
-├── Core/
-│   ├── AppServicios.cs           → localizador de servicios (se inicializa una vez al arrancar)
-│   ├── Enums.cs                  → EstadoEquipo, EstadoOrden, Prioridad, RolSistema, AreaAplicacion…
-│   ├── PermisosRbac.cs           → matriz de permisos: rol × área → nivel de acceso
-│   ├── Converters.cs             → convertidores XAML (colores de chip, visibilidad, moneda…)
-│   ├── Formateo.cs               → números, moneda, fechas en formato es-CO
-│   └── Paleta.cs                 → colores por severidad (éxito, advertencia, peligro…)
-├── Models/                       → entidades: Equipo, OrdenTrabajo, Intervencion, Usuario,
-│                                   Tecnico, Formulario, Auditoria, Institucion, Dashboard
-├── Services/
-│   ├── IRepositorioDatos.cs      → CONTRATO de datos (la pieza que se conecta a la BD en fase 2)
-│   ├── DemoDataProvider.cs       → implementación en memoria + siembra de datos demo
-│   ├── SesionService.cs          → usuario actual, tenant actual, validación de acceso (RBAC)
-│   ├── AuditoriaService.cs       → registra eventos de auditoría en toda escritura
-│   ├── NavegacionService.cs      → rutas de navegación y control de permisos por ruta
-│   ├── ExportacionService.cs     → Excel (ClosedXML) y PDF (QuestPDF)
-│   └── ToastService.cs           → notificaciones flotantes de confirmación
-├── ViewModels/                   → un ViewModel por módulo (estado + comandos)
-├── Views/                        → una vista XAML (+ code-behind mínimo) por módulo
-├── Controls/                     → controles reutilizables (PageHeader, KpiCard, Dialogo,
-│                                   EmptyState, gráficas de barras/línea/dona…)
-├── Themes/                       → sistema de diseño (colores, tipografía, estilos)
-├── CONTRATO-MODULOS.md           → contrato interno de construcción de módulos
-└── README.md                     → este archivo
+SITBIO-Desktop/                     (raíz del repositorio, sección 14.1 de la arquitectura)
+├── SITBIO.sln                      → solución: cliente + backend
+├── README.md                       → este archivo
+├── docs/arquitectura/              → documento oficial ADSO-ARQ-01 (.docx)
+├── src/backend/SITBIO.Api/         → API REST fase 2 (net8.0): Controllers/, Domain/,
+│                                   Data/ (SITBIOContext + SemillaDatos), Auth/ (JWT), Program.cs
+└── src/client/                     → cliente WPF (net10.0-windows)
+    ├── SITBIO-Desktop.csproj       → proyecto (copia sitbio.config.json al bin)
+    ├── sitbio.config.json          → interruptor ModoDatos (Demo/Api) y UrlApi
+    ├── App.xaml / App.xaml.cs      → arranque: cultura es-CO, servicios, DataTemplates y rutas
+    ├── MainWindow.xaml             → contenedor de la ventana (aloja el Shell)
+    ├── Core/
+    │   ├── AppServicios.cs         → localizador de servicios (elige Demo/Api al arrancar)
+    │   ├── ConfiguracionCliente.cs → lee sitbio.config.json + variables SITBIO_MODO/URL_API
+    │   ├── Enums.cs                → EstadoEquipo, EstadoOrden, Prioridad, RolSistema…
+    │   ├── PermisosRbac.cs         → matriz de permisos: rol × área → nivel de acceso
+    │   ├── Converters.cs           → convertidores XAML (colores de chip, visibilidad…)
+    │   ├── Formateo.cs             → números, moneda, fechas en formato es-CO
+    │   └── Paleta.cs               → colores por severidad (éxito, advertencia…)
+    ├── Models/                     → entidades: Equipo, OrdenTrabajo, Intervencion, Usuario,
+    │                                   Tecnico, Formulario, Auditoria, Institucion, Dashboard
+    ├── Services/
+    │   ├── IRepositorioDatos.cs    → CONTRATO de datos (lo comparten Demo y Api)
+    │   ├── DemoDataProvider.cs     → implementación en memoria + siembra de datos demo
+    │   ├── RepositorioApi.cs       → implementación HTTP+JWT contra la API (fase 2b)
+    │   ├── SesionService.cs        → usuario actual, tenant actual, validación de acceso (RBAC)
+    │   ├── AuditoriaService.cs     → registra eventos de auditoría en toda escritura
+    │   ├── NavegacionService.cs    → rutas de navegación y control de permisos por ruta
+    │   ├── ExportacionService.cs   → Excel (ClosedXML) y PDF (QuestPDF)
+    │   └── ToastService.cs         → notificaciones flotantes de confirmación
+    ├── ViewModels/                 → un ViewModel por módulo (estado + comandos)
+    ├── Views/                      → una vista XAML (+ code-behind mínimo) por módulo
+    ├── Controls/                   → controles reutilizables (PageHeader, KpiCard, Dialogo,
+    │                                   EmptyState, gráficas de barras/línea/dona…)
+    ├── Themes/                     → sistema de diseño (colores, tipografía, estilos)
+    └── CONTRATO-MODULOS.md         → contrato interno de construcción de módulos
 ```
 
 ### Servicios disponibles (localizador `AppServicios`)
@@ -406,7 +460,7 @@ git checkout develop
 git pull
 git checkout -b feature/base-datos-postgresql
 # ... trabajar ...
-git add Services/RepositorioApi.cs      # agregar SOLO los archivos de la tarea
+git add src/client/Services/RepositorioApi.cs   # agregar SOLO los archivos de la tarea
 git commit -m "feat(datos): repositorio que consume la API REST"
 git push -u origin feature/base-datos-postgresql
 # Abrir el PR feature/... → develop en GitHub, revisar y mergear.
@@ -440,16 +494,18 @@ Otras buenas prácticas ya aplicadas en el repo: `.gitignore` (excluye `bin/`, `
 
 ## 11. Siguientes pasos
 
-1. **Fase 2 — Backend**: API REST ASP.NET Core 8 (JWT + RBAC) + PostgreSQL 16 con EF Core,
-   reutilizando la siembra de `DemoDataProvider` como seed (sección 4.4).
-2. **Cliente**: implementar `RepositorioApi : IRepositorioDatos` y sustituirlo en
-   `AppServicios.Inicializar()` — sin tocar los ViewModels.
+1. ~~**Fase 2 — Backend**~~ ✅ `src/backend/SITBIO.Api/`: API REST ASP.NET Core 8 (JWT + BCrypt,
+   RBAC, aislamiento por tenant) con EF Core y **PostgreSQL 16**, siembra equivalente a
+   `DemoDataProvider` y migraciones automáticas al arrancar (secciones 2 y 4.1).
+2. ~~**Cliente**~~ ✅ `RepositorioApi : IRepositorioDatos` con interruptor **Demo/Api** en
+   `AppServicios.Inicializar()`; los ViewModels solo recibieron las llamadas a los nuevos
+   métodos `Actualizar*`/`AgregarIntervencion` de la interfaz.
 3. **Fase 3 — MongoDB**: intervenciones con `camposDinamicos`, configuración de formularios y
-   bitácora de auditoría.
-4. **Fase 4 — Analítica**: pipeline Python con K-Means y estructura del repositorio
-   `/src/client`, `/src/backend`, `/src/analytics`, `/docs`, `/tests` (sección 14.1 del
+   bitácora de auditoría (en la fase 2 quedaron en PostgreSQL como decisión de alcance).
+4. **Fase 4 — Analítica**: pipeline Python con K-Means en `/src/analytics` (sección 14.1 del
    documento de arquitectura).
-5. **Módulos "próximamente"**: Calibraciones e inventario de repuestos.
+5. **Pendiente del equipo**: alinear el TFM del backend (`net8.0`) con el cliente (`net10.0`).
+6. **Módulos "próximamente"**: Calibraciones e inventario de repuestos.
 
 ---
 

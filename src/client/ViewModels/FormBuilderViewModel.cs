@@ -281,6 +281,8 @@ public partial class FormBuilderViewModel : ObservableObject
 
         if (!EsNuevo && _formulario.Id > 0)
         {
+            _datos.ActualizarFormulario(_formulario);
+
             _auditoria.Registrar(AccionAuditoria.Actualizacion, "Formulario", _formulario.Nombre,
                 $"Actualización de la estructura: {Campos.Count} campos, {obligatorios} obligatorios");
 

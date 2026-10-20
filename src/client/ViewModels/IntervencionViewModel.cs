@@ -182,10 +182,7 @@ public partial class IntervencionViewModel : ObservableObject
             Diagnostico = string.Empty
         };
 
-        // El proveedor demo expone la lista subyacente; con EF Core este alta
-        // se hará mediante el repositorio (fase de base de datos).
-        if (_datos.Intervenciones is List<Intervencion> lista)
-            lista.Add(Intervencion);
+        _datos.AgregarIntervencion(Intervencion);
 
         EstadoSeleccionado = Estados[0];
         EstadoTexto = EstadoIntervencion.Borrador.ToString();
@@ -240,7 +237,10 @@ public partial class IntervencionViewModel : ObservableObject
                 Detalle = "Trabajo de campo completado; la orden pasa a verificación",
                 Icono = "\uE73E"
             });
+            _datos.ActualizarOrden(Orden);
         }
+
+        _datos.ActualizarIntervencion(Intervencion);
 
         _auditoria.Registrar(AccionAuditoria.Actualizacion, "Intervencion", Orden.Codigo,
             $"Registro de intervención actualizado ({Formateo.Num(Horas, "0.0")} h · total {Formateo.Dinero(Total)})");

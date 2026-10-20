@@ -30,14 +30,32 @@ public class AuthController : ControllerBase
 
         var email = peticion.Email.Trim().ToLowerInvariant();
 
-        var consulta = _db.Usuarios.Where(u => u.Activo && u.Email.ToLower() == email);
-        if (peticion.TenantId > 0)
-            consulta = consulta.Where(u => u.TenantId == peticion.TenantId);
-
-        var usuario = await consulta.FirstOrDefaultAsync();
+        // Se consulta sin filtros para poder distinguir el motivo del rechazo y
+        // mantener la paridad con LoginResultado del cliente (fase 2b):
+        // clave incorrecta → 401 codigo=clave · inactivo → 403 · tenant → 401 codigo=tenant.
+        var usuario = await _db.Usuarios
+            .FirstOrDefaultAsync(u => u.Email.ToLower() == email);
 
         if (usuario is null || !BCrypt.Net.BCrypt.Verify(peticion.Clave, usuario.PasswordHash))
-            return Unauthorized(new { mensaje = "Credenciales inválidas para la institución seleccionada." });
+            return Unauthorized(new
+            {
+                mensaje = "Credenciales inválidas para la institución seleccionada.",
+                codigo = "clave"
+            });
+
+        if (!usuario.Activo)
+            return StatusCode(StatusCodes.Status403Forbidden, new
+            {
+                mensaje = "La cuenta está desactivada. Contacte al administrador de la institución.",
+                codigo = "inactivo"
+            });
+
+        if (peticion.TenantId > 0 && usuario.TenantId != peticion.TenantId)
+            return Unauthorized(new
+            {
+                mensaje = "Credenciales inválidas para la institución seleccionada.",
+                codigo = "tenant"
+            });
 
         var registro = await _db.Usuarios.FirstAsync(u => u.Id == usuario.Id);
         registro.UltimoAcceso = DateTime.Now;
