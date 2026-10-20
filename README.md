@@ -71,7 +71,7 @@ Abrir `SITBIO.sln` (o `src/client/SITBIO-Desktop.csproj`) y presionar **F5**.
 ```powershell
 # 1) Base de datos (una sola vez por equipo):
 docker run -d --name sitbio-pg -p 5433:5432 `
-  -e POSTGRES_USER=sitbio_dev -e POSTGRES_PASSWORD=sitbio_dev -e POSTGRES_DB=sitbio `
+  -e POSTGRES_USER=sitbio -e POSTGRES_PASSWORD=sitbio_dev -e POSTGRES_DB=sitbio `
   -v sitbio-pgdata:/var/lib/postgresql/data postgres:16
 # (si el contenedor ya existe: docker start sitbio-pg)
 
