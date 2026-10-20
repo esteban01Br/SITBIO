@@ -248,6 +248,7 @@ public partial class UsuariosViewModel : ObservableObject
         }
 
         usuario.Activo = !usuario.Activo;
+        _datos.ActualizarUsuario(usuario);
 
         _auditoria.Registrar(
             AccionAuditoria.Actualizacion,

@@ -15,4 +15,9 @@
     <PackageReference Include="QuestPDF" Version="2026.9.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Interruptor Demo/Api de la fase 2b: se copia junto al ejecutable. -->
+    <None Update="sitbio.config.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

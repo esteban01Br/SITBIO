@@ -297,6 +297,8 @@ public partial class OrdenDetalleViewModel : ObservableObject
             Orden.FechaCierre = DateTime.Now;
         }
 
+        _datos.ActualizarOrden(Orden);
+
         DialogoAbierto = false;
         ContenidoDialogo = null;
         ModoDialogo = string.Empty;
@@ -341,6 +343,8 @@ public partial class OrdenDetalleViewModel : ObservableObject
         _auditoria.Registrar(AccionAuditoria.Actualizacion, "OrdenTrabajo", Orden.Codigo,
             "Nuevo comentario de seguimiento en la orden");
 
+        _datos.ActualizarOrden(Orden);
+
         NuevoComentario = string.Empty;
         _toast.Exito("La nota quedó adjunta a la orden.", "Comentario agregado");
         Refrescar();
@@ -362,6 +366,8 @@ public partial class OrdenDetalleViewModel : ObservableObject
             Detalle = detalle,
             Icono = nuevo == EstadoOrden.Cerrada ? "\uE73E" : "\uE895"
         });
+
+        _datos.ActualizarOrden(Orden);
 
         _auditoria.Registrar(AccionAuditoria.CambioEstado, "OrdenTrabajo", Orden.Codigo,
             $"Estado actualizado a {Orden.EstadoTexto} — {detalle}");

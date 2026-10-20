@@ -243,6 +243,8 @@ public partial class TecnicosViewModel : ObservableObject
             Icono = "\uE748"
         });
 
+        _datos.ActualizarOrden(orden);
+
         _auditoria.Registrar(AccionAuditoria.Asignacion, "OrdenTrabajo", orden.Codigo,
             $"Asignación de la orden a {tecnico.Nombre} ({tecnico.EspecialidadesTexto})");
 

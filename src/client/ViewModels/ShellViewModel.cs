@@ -210,6 +210,13 @@ public partial class ShellViewModel : ObservableObject
             CargarNotificaciones();
             _navegacion.Navegar(Rutas.Dashboard);
         }
+        else
+        {
+            _toast.Advertencia(
+                "El cambio de institución no está disponible en modo API: la sesión opera " +
+                "sobre la institución de su token. Cierre sesión para entrar en otra.",
+                "Cambio no disponible");
+        }
     }
 
     [RelayCommand]

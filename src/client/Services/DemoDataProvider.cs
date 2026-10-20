@@ -91,6 +91,43 @@ public class DemoDataProvider : IRepositorioDatos
     public void EliminarEquipo(int id) => _equipos.RemoveAll(x => x.Id == id);
     public void EliminarFormulario(int id) => _formularios.RemoveAll(x => x.Id == id);
 
+    public void AgregarIntervencion(Intervencion intervencion)
+    {
+        intervencion.Id = intervencion.Id == 0 ? _siguienteId++ : intervencion.Id;
+        if (!_intervenciones.Contains(intervencion)) _intervenciones.Add(intervencion);
+    }
+
+    public void ActualizarOrden(OrdenTrabajo orden) => Reemplazar(_ordenes, orden, x => x.Id);
+    public void ActualizarEquipo(Equipo equipo) => Reemplazar(_equipos, equipo, x => x.Id);
+    public void ActualizarUsuario(Usuario usuario) => Reemplazar(_usuarios, usuario, x => x.Id);
+    public void ActualizarIntervencion(Intervencion intervencion) => Reemplazar(_intervenciones, intervencion, x => x.Id);
+    public void ActualizarFormulario(FormularioDinamico formulario) => Reemplazar(_formularios, formulario, x => x.Id);
+
+    /// <summary>Reemplaza por Id (o agrega si ya no existe), como el PUT de la API.</summary>
+    private static void Reemplazar<T>(List<T> lista, T elemento, Func<T, int> id) where T : class
+    {
+        var i = lista.FindIndex(x => id(x) == id(elemento));
+        if (i >= 0) lista[i] = elemento;
+        else lista.Add(elemento);
+    }
+
+    public LoginResultado IntentarAcceso(string email, string clave, int tenantId, out Usuario? usuario)
+    {
+        usuario = _usuarios.FirstOrDefault(u =>
+            u.Email.Equals(email.Trim(), StringComparison.OrdinalIgnoreCase));
+
+        if (usuario is null ||
+            !string.Equals(usuario.PasswordHash, clave, StringComparison.Ordinal))
+        {
+            usuario = null;
+            return LoginResultado.CredencialesInvalidas;
+        }
+
+        if (!usuario.Activo) return LoginResultado.UsuarioInactivo;
+        if (tenantId > 0 && usuario.TenantId != tenantId) return LoginResultado.TenantInvalido;
+        return LoginResultado.Correcto;
+    }
+
     public string SiguienteCodigoOrden(int tenantId)
     {
         var anio = DateTime.Today.Year;

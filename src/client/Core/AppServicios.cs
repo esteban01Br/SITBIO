@@ -16,13 +16,23 @@ public static class AppServicios
     public static IToastService Toast { get; private set; } = null!;
     public static IExportacionService Exportacion { get; private set; } = null!;
 
+    /// <summary>Modo activo según sitbio.config.json / SITBIO_MODO (fase 2b).</summary>
+    public static ModoDatos ModoActivo { get; private set; } = ModoDatos.Demo;
+
     public static bool Inicializado { get; private set; }
 
     public static void Inicializar()
     {
         if (Inicializado) return;
 
-        Datos = new DemoDataProvider();
+        // Interruptor Demo/Api (fase 2b): por defecto Demo, idéntico al comportamiento
+        // histórico; "Api" conecta contra SITBIO.Api + PostgreSQL (localhost:5088).
+        var cfg = ConfiguracionCliente.Cargar();
+        ModoActivo = cfg.Modo;
+        Datos = cfg.Modo == ModoDatos.Api
+            ? new RepositorioApi(cfg.UrlApi)
+            : new DemoDataProvider();
+
         Sesion = new SesionService(Datos);
         Auditoria = new AuditoriaService(Datos, Sesion);
         Toast = new ToastService();

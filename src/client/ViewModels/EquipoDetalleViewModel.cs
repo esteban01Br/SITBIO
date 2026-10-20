@@ -219,6 +219,7 @@ public partial class EquipoDetalleViewModel : ObservableObject
         equipo.Estado = nuevoEstado;
         equipo.Ubicacion = nuevaUbicacion;
         equipo.Responsable = nuevoResponsable;
+        _datos.ActualizarEquipo(equipo);
 
         _auditoria.Registrar(AccionAuditoria.Actualizacion, "Equipo", equipo.CodigoInventario,
             $"Actualización de la hoja de vida: estado {equipo.EstadoTexto}, ubicación {equipo.Ubicacion}, responsable {equipo.Responsable}");

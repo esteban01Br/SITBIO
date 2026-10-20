@@ -45,24 +45,18 @@ public class SesionService : ISesionService
 
     public LoginResultado Login(string email, string password, Institucion? tenant)
     {
-        var usuario = _datos.Usuarios.FirstOrDefault(u =>
-            u.Email.Equals(email.Trim(), StringComparison.OrdinalIgnoreCase));
-
-        if (usuario is null)
-            return LoginResultado.CredencialesInvalidas;
-
-        // Credenciales demo. En producción: BCrypt + JWT (OBJ-02).
-        if (!string.Equals(usuario.PasswordHash, password, StringComparison.Ordinal))
-            return LoginResultado.CredencialesInvalidas;
-
-        if (!usuario.Activo)
-            return LoginResultado.UsuarioInactivo;
+        // La validación vive en el repositorio: el demo compara en memoria y el
+        // modo Api llama a POST auth/login (BCrypt + JWT, fase 2b).
+        var resultado = _datos.IntentarAcceso(email, password, tenant?.Id ?? 0, out var usuario);
+        if (resultado != LoginResultado.Correcto || usuario is null)
+            return resultado;
 
         var institucion = tenant ?? _datos.Tenants.FirstOrDefault(t => t.Id == usuario.TenantId);
         if (institucion is null)
             return LoginResultado.TenantInvalido;
 
         TenantActual = institucion;
+        // En modo demo persiste en memoria; en modo Api la API ya actualizó UltimoAcceso.
         usuario.UltimoAcceso = DateTime.Now;
         usuario.PrimerIngreso = false;
         UsuarioActual = usuario;
@@ -80,6 +74,9 @@ public class SesionService : ISesionService
     public bool CambiarTenant(int tenantId)
     {
         if (UsuarioActual is null) return false;
+        // Modo Api: el token JWT pertenece a un solo tenant (ADSO-ARQ-01 §6);
+        // para operar sobre otra institución hay que cerrar sesión y volver a entrar.
+        if (!_datos.SoportaCambioTenant) return false;
         // Un usuario solo puede operar dentro de su institución: aislamiento lógico (RSK-03).
         if (UsuarioActual.Rol != RolSistema.Administrador) return false;
 

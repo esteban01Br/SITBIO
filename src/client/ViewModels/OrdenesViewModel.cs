@@ -489,6 +489,8 @@ public partial class OrdenesViewModel : ObservableObject
         _auditoria.Registrar(AccionAuditoria.CambioEstado, "OrdenTrabajo", orden.Codigo,
             $"Paso de estado a {EstadoTextoDe(siguiente)}");
 
+        _datos.ActualizarOrden(orden);
+
         _toast.Exito($"{orden.Codigo} pasó a «{EstadoTextoDe(siguiente)}».", "Estado actualizado");
         Cargar();
     }
