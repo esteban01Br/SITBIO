@@ -1,0 +1,5 @@
+﻿== Creación de copias S03 (dataset S03_SITBIO_V1) ==
+s03_tecnicos: 10 documento(s) · dataset = S03_SITBIO_V1
+s03_equipos: 15 documento(s) · dataset = S03_SITBIO_V1
+s03_intervenciones: 30 documento(s) · dataset = S03_SITBIO_V1
+Listo.

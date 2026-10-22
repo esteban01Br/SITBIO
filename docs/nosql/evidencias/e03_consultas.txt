@@ -1,0 +1,65 @@
+﻿
+--- C01 · Intervenciones programadas
+filtro: {"estado":"programada"}
+esperado: 10 · obtenido: 10 ✓ · INT-024, INT-016, INT-017, INT-018, INT-019, INT-020, INT-021, INT-022, INT-023, INT-025
+
+--- C02 · Equipos del sector Imagenología
+filtro: {"sector":"Imagenología"}
+esperado: 3 (EQP-003, 011, 015 — EQP-002 pertenece a Urgencias pese a estar hoy en el piso de Imagenología) · obtenido: 3 ✓ · EQP-003, EQP-011, EQP-015
+
+--- C03 · Equipos con clasificación de riesgo alto (campos_dinamicos)
+filtro: {"campos_dinamicos.clasificacion_riesgo":"alto"}
+esperado: 5 · obtenido: 5 ✓ · EQP-002, EQP-003, EQP-008, EQP-014, EQP-015
+
+--- C04 · Intervenciones realizadas en septiembre de 2026 (rango UTC)
+filtro: {"estado":"realizada","fecha_inicio":{"$gte":{"$date":"2026-09-01T00:00:00Z"},"$lt":{"$date":"2026-10-01T00:00:00Z"}}}
+esperado: 5 (INT-011..015) · obtenido: 5 ✓ · INT-011, INT-012, INT-013, INT-014, INT-015
+
+--- C05 · Contraste de equipo_snapshot vs estado ACTUAL del equipo
+filtro: "equipo_snapshot.estado ≠ equipos.estado"
+esperado: snapshots no operativos (historial de fallas) · obtenido: 7
+  INT-010 · EQP-010 · histórico="mantenimiento" vs actual="mantenimiento"
+  INT-013 · EQP-013 · histórico="mantenimiento" vs actual="mantenimiento"
+  INT-017 · EQP-002 · histórico="mantenimiento" vs actual="mantenimiento"
+  INT-020 · EQP-005 · histórico="fuera_de_servicio" vs actual="fuera_de_servicio"
+  INT-025 · EQP-010 · histórico="mantenimiento" vs actual="mantenimiento"
+  INT-028 · EQP-013 · histórico="mantenimiento" vs actual="mantenimiento"
+  INT-029 · EQP-014 · histórico="fuera_de_servicio" vs actual="fuera_de_servicio"
+
+--- C06 · Intervenciones con repuestos vs sin repuestos
+filtro: "{ \"repuestos.0\": { $exists: true } }  vs  { repuestos: { $size: 0 } }"
+con repuestos: 10 (ej. INT-001 → [{"codigo":"REP-001","nombre":"Filtro HEPA","cantidad":2}])
+sin repuestos ($size: 0): 20 · total 30 = 30 ✓
+
+--- C07 · contacto_alterno null (enseña que también casa campo ausente)
+filtro: {"contacto_alterno":null}
+obtenido: 9 → TEC-002(null), TEC-003(ausente), TEC-004(ausente), TEC-005(ausente), TEC-006(ausente), TEC-007(ausente), TEC-008(ausente), TEC-009(ausente), TEC-010(ausente)
+lectura: TEC-002 tiene null explícito y TEC-003 lo tiene ausente; el filtro { null } casó con ambos.
+
+--- C08 · contacto_alterno ausente vs presente
+filtro: "{ contacto_alterno: { $exists: false } }  vs  { $exists: true }"
+ausentes ($exists:false): 8 → TEC-003, TEC-004, TEC-005, TEC-006, TEC-007, TEC-008, TEC-009, TEC-010
+presentes ($exists:true): 2 → TEC-001, TEC-002
+lectura: $exists:false distingue el ausente (TEC-003) del null (TEC-002), a diferencia de C07.
+
+--- C09 · Diagnóstico con area='Aspiración' y puntaje>=80 en el MISMO elemento
+filtro: {"diagnosticos":{"$elemMatch":{"area":"Aspiración","puntaje":{"$gte":80}}}}
+$elemMatch (correcto): 0 documento(s) ✓ (ninguno: TEC-003 tiene Aspiración con 70)
+filtro cruzado (INCORRECTO): 1 documento(s) → TEC-003
+lectura: el filtro cruzado falso-positivos a TEC-003 (área en un elemento, puntaje 80 en otro); $elemMatch exige el mismo elemento.
+
+--- C10 · Páginas de 3 equipos, orden { sector: 1, codigo: 1 }
+filtro: "skip/limit vs $or con clave anterior (keyset)"
+  skip/limit página 1: EQP-005, EQP-003, EQP-011
+  skip/limit página 2: EQP-015, EQP-012, EQP-013
+  skip/limit página 3: EQP-009, EQP-010, EQP-001
+  skip/limit página 4: EQP-008, EQP-004, EQP-006
+  skip/limit página 5: EQP-002, EQP-007, EQP-014
+  skip/limit → 15 códigos, 15 únicos ✓ (sin repetidos)
+  keyset página 1: EQP-005, EQP-003, EQP-011
+  keyset página 2: EQP-015, EQP-012, EQP-013
+  keyset página 3: EQP-009, EQP-010, EQP-001
+  keyset página 4: EQP-008, EQP-004, EQP-006
+  keyset página 5: EQP-002, EQP-007, EQP-014
+  keyset → 15 códigos, 15 únicos ✓ · mismo orden y mismos códigos que skip/limit: ✓
+== Consultas terminadas ==
