@@ -1,0 +1,6 @@
+﻿== Carga de semilla EJSON (base sitbio_lab_nosql) ==
+tecnicos: 10 escrito(s) · 0 rechazado(s)
+equipos: 15 escrito(s) · 0 rechazado(s)
+intervenciones: 30 escrito(s) · 0 rechazado(s)
+Conteos: tecnicos=10 equipos=15 intervenciones=30 · rechazos=0
+Carga completa sin referencias rotas.

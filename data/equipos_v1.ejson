@@ -1,0 +1,285 @@
+[
+ {
+  "codigo": "EQP-001",
+  "nombre": "Bomba de aspiración central",
+  "categoria": "Bomba de aspiración",
+  "sector": "Quirófano",
+  "estado": "operativo",
+  "ubicacion": "Piso 3 - Quirófano 2",
+  "responsable_id": "TEC-003",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "medio",
+   "resolucion_sanitaria": "INVIMA 2019-001101"
+  },
+  "fecha_instalacion": {
+   "$date": "2022-02-02T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ },
+ {
+  "codigo": "EQP-002",
+  "nombre": "Cardioestimulador portátil",
+  "categoria": "Electrocardiógrafo",
+  "sector": "Urgencias",
+  "estado": "mantenimiento",
+  "ubicacion": "Piso 4 - Imagenología",
+  "responsable_id": "TEC-001",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "alto",
+   "resolucion_sanitaria": "INVIMA 2020-002205"
+  },
+  "fecha_instalacion": {
+   "$date": "2023-03-03T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ },
+ {
+  "codigo": "EQP-003",
+  "nombre": "Tomógrafo 128 cortes",
+  "categoria": "Tomógrafo",
+  "sector": "Imagenología",
+  "estado": "operativo",
+  "ubicacion": "Piso 1 - Diagnóstico por imagen",
+  "responsable_id": "TEC-002",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "alto",
+   "resolucion_sanitaria": "INVIMA 2018-003310"
+  },
+  "fecha_instalacion": {
+   "$date": "2024-04-04T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ },
+ {
+  "codigo": "EQP-004",
+  "nombre": "Ventilador pulmonar adulto",
+  "categoria": "Ventilador",
+  "sector": "UCI",
+  "estado": "operativo",
+  "ubicacion": "Piso 2 - UCI",
+  "responsable_id": "TEC-005",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "medio",
+   "resolucion_sanitaria": "INVIMA 2021-004412"
+  },
+  "fecha_instalacion": {
+   "$date": "2025-05-05T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ },
+ {
+  "codigo": "EQP-005",
+  "nombre": "Autoclave horizontal 340 L",
+  "categoria": "Autoclave",
+  "sector": "Esterilización",
+  "estado": "fuera_de_servicio",
+  "ubicacion": "Piso 1 - Esterilización",
+  "responsable_id": "TEC-006",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "medio",
+   "resolucion_sanitaria": null
+  },
+  "fecha_instalacion": {
+   "$date": "2021-06-06T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ },
+ {
+  "codigo": "EQP-006",
+  "nombre": "Monitor multiparamétrico",
+  "categoria": "Monitor",
+  "sector": "UCI",
+  "estado": "operativo",
+  "ubicacion": "Piso 2 - UCI",
+  "responsable_id": "TEC-005",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "bajo",
+   "resolucion_sanitaria": "INVIMA 2019-005533"
+  },
+  "fecha_instalacion": {
+   "$date": "2022-07-07T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ },
+ {
+  "codigo": "EQP-007",
+  "nombre": "Bomba de infusión volumétrica",
+  "categoria": "Bomba de infusión",
+  "sector": "Urgencias",
+  "estado": "operativo",
+  "ubicacion": "Piso 4 - Urgencias",
+  "responsable_id": "TEC-003",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "bajo",
+   "resolucion_sanitaria": "INVIMA 2020-006644"
+  },
+  "fecha_instalacion": {
+   "$date": "2023-08-08T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ },
+ {
+  "codigo": "EQP-008",
+  "nombre": "Electroquirúrgico 400 W",
+  "categoria": "Bisturí eléctrico",
+  "sector": "Quirófano",
+  "estado": "operativo",
+  "ubicacion": "Piso 3 - Quirófano 1",
+  "responsable_id": "TEC-004",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "alto",
+   "resolucion_sanitaria": "INVIMA 2017-007755"
+  },
+  "fecha_instalacion": {
+   "$date": "2024-09-09T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ },
+ {
+  "codigo": "EQP-009",
+  "nombre": "Analizador químico clínico",
+  "categoria": "Analizador",
+  "sector": "Laboratorio",
+  "estado": "operativo",
+  "ubicacion": "Piso 1 - Laboratorio central",
+  "responsable_id": "TEC-007",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "medio",
+   "resolucion_sanitaria": null
+  },
+  "fecha_instalacion": {
+   "$date": "2025-10-10T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ },
+ {
+  "codigo": "EQP-010",
+  "nombre": "Centrífuga refrigerada",
+  "categoria": "Centrífuga",
+  "sector": "Laboratorio",
+  "estado": "mantenimiento",
+  "ubicacion": "Piso 1 - Laboratorio central",
+  "responsable_id": "TEC-007",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "bajo"
+  },
+  "fecha_instalacion": {
+   "$date": "2021-11-11T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ },
+ {
+  "codigo": "EQP-011",
+  "nombre": "Radiología portátil",
+  "categoria": "Equipo de rayos X",
+  "sector": "Imagenología",
+  "estado": "operativo",
+  "ubicacion": "Piso 2 - Hospitalización",
+  "responsable_id": "TEC-002",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "medio",
+   "resolucion_sanitaria": "INVIMA 2019-008866"
+  },
+  "fecha_instalacion": {
+   "$date": "2022-12-12T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ },
+ {
+  "codigo": "EQP-012",
+  "nombre": "UPS 10 kVA quirófano",
+  "categoria": "UPS",
+  "sector": "Infraestructura",
+  "estado": "operativo",
+  "ubicacion": "Piso 3 - Cuarto técnico",
+  "responsable_id": "TEC-008",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "bajo"
+  },
+  "fecha_instalacion": {
+   "$date": "2023-01-13T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ },
+ {
+  "codigo": "EQP-013",
+  "nombre": "Generador diésel 60 kVA",
+  "categoria": "Generador",
+  "sector": "Infraestructura",
+  "estado": "mantenimiento",
+  "ubicacion": "Terraza - Casa de máquinas",
+  "responsable_id": "TEC-008",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "medio",
+   "resolucion_sanitaria": "Invima 2016-009977"
+  },
+  "fecha_instalacion": {
+   "$date": "2024-02-14T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ },
+ {
+  "codigo": "EQP-014",
+  "nombre": "Desfibrilador semiautomático",
+  "categoria": "Desfibrilador",
+  "sector": "Urgencias",
+  "estado": "fuera_de_servicio",
+  "ubicacion": "Piso 4 - Urgencias",
+  "responsable_id": "TEC-009",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "alto",
+   "resolucion_sanitaria": "INVIMA 2021-010088"
+  },
+  "fecha_instalacion": {
+   "$date": "2025-03-15T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ },
+ {
+  "codigo": "EQP-015",
+  "nombre": "Rayos X móvil C-arm",
+  "categoria": "Equipo de rayos X",
+  "sector": "Imagenología",
+  "estado": "operativo",
+  "ubicacion": "Piso 3 - Quirófano 2",
+  "responsable_id": "TEC-002",
+  "campos_dinamicos": {
+   "clasificacion_riesgo": "alto",
+   "resolucion_sanitaria": "INVIMA 2020-011199"
+  },
+  "fecha_instalacion": {
+   "$date": "2021-04-16T10:00:00Z"
+  },
+  "creado": {
+   "$date": "2026-07-01T07:45:00Z"
+  }
+ }
+]

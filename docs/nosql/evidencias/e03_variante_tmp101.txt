@@ -1,0 +1,7 @@
+﻿== Variante individual: TMP-101 ==
+1) responsable de EQP-002 = TEC-001 (comprobado antes de operar)
+2) insertOne TMP-101 → {"codigo":"TMP-101","equipo_id":"EQP-002","tecnico_id":"TEC-001","reintentos":0,"notas":null}
+3) $set + $inc → {"codigo":"TMP-101","equipo_id":"EQP-002","tecnico_id":"TEC-001","reintentos":1,"notas":"Prueba de variante individual."}
+4) deleteOne({ codigo: "TMP-101" }) → deleted=1 · tmp_laboratorio=0
+5) verificación: EQP-002.responsable_id = TEC-001 (igual que al inicio) ✓ · s03_intervenciones = 30 (esperado 30) ✓
+Listo.

@@ -1,0 +1,36 @@
+CodigoInventario,Nombre,Categoria,Marca,Modelo,Ubicacion,Responsable,Estado,FechaInstalacion,ValorAdquisicion,VidaUtilMeses
+BM-00001,Monitor multiparamétrico,Monitor multiparamétrico,Getinge,MX-536B,Laboratorio central,Ingeniería biomédica,0,2024-04-24 00:00:00,176594950.00,93
+BM-00002,Bomba de infusión,Bomba de infusión,Mindray,MX-398E,Neonatología,Servicio externo,0,2019-04-18 00:00:00,115865309.00,110
+BM-00003,Desfibrilador,Desfibrilador,Siemens Healthineers,MX-465F,Laboratorio central,Ingeniería biomédica,0,2020-08-12 00:00:00,40809385.00,107
+BM-00004,Respirador mecánico,Respirador mecánico,Siemens Healthineers,MX-269C,Neonatología,Servicio externo,0,2021-11-26 00:00:00,159595847.00,119
+BM-00005,Electrocardiógrafo,Electrocardiógrafo,Baxter,MX-171C,Quirófano 2,Servicio externo,0,2024-08-13 00:00:00,15283817.00,76
+BM-00006,Autoclave,Autoclave,Philips,MX-855B,Laboratorio central,Servicio externo,0,2021-04-16 00:00:00,73139749.00,111
+BM-00007,Camilla de atención,Camilla de atención,GE Healthcare,MX-615A,Quirófano 2,Ingeniería biomédica,1,2024-11-04 00:00:00,142202715.00,80
+BM-00008,Oxímetro de pulso,Oxímetro de pulso,Siemens Healthineers,MX-130E,Consultorio 105,Ingeniería biomédica,2,2021-06-07 00:00:00,30929838.00,76
+BM-00009,Ultrasonido diagnóstico,Ultrasonido diagnóstico,Dräger,MX-146E,UCI – Sala 1,Ingeniería biomédica,3,2019-09-13 00:00:00,43426342.00,60
+BM-00010,Bomba de aspiración,Bomba de aspiración,Dräger,MX-858A,Sala de partos,Servicio externo,0,2019-04-20 00:00:00,45803471.00,64
+BM-00011,Incubadora neonatal,Incubadora neonatal,Dräger,MX-526E,Sala de partos,Servicio externo,0,2020-08-04 00:00:00,118125819.00,101
+BM-00012,Mesa de quirófano,Mesa de quirófano,Mindray,MX-159D,UCI – Sala 1,Ingeniería biomédica,0,2023-12-13 00:00:00,19022529.00,96
+BM-00013,Central de monitoreo,Central de monitoreo,Baxter,MX-746A,Consultorio 105,Ingeniería biomédica,4,2019-01-03 00:00:00,178340610.00,98
+BM-00014,Generador de Rayos X,Generador de Rayos X,Getinge,MX-421B,Sala de partos,Servicio externo,0,2019-09-22 00:00:00,95852375.00,67
+BM-00015,Balanza de precisión,Balanza de precisión,Philips,MX-642D,Sala de partos,Ingeniería biomédica,0,2023-07-06 00:00:00,161538504.00,94
+BM-00016,Analizador clínico,Analizador clínico,Getinge,MX-592B,Hospitalización 3°,Ingeniería biomédica,0,2019-10-21 00:00:00,104133069.00,100
+BM-00017,Monitor multiparamétrico,Monitor multiparamétrico,GE Healthcare,MX-958D,UCI – Sala 1,Ingeniería biomédica,0,2022-08-27 00:00:00,46796501.00,75
+BM-00018,Bomba de infusión,Bomba de infusión,Baxter,MX-562E,Esterilización,Servicio externo,0,2019-06-09 00:00:00,178761023.00,114
+BM-00019,Desfibrilador,Desfibrilador,Dräger,MX-722F,Emergencias,Servicio externo,0,2022-03-12 00:00:00,105419922.00,87
+BM-00020,Respirador mecánico,Respirador mecánico,Baxter,MX-404A,Quirófano 2,Ingeniería biomédica,0,2021-09-06 00:00:00,90993677.00,94
+BM-00021,Electrocardiógrafo,Electrocardiógrafo,Dräger,MX-955C,Neonatología,Servicio externo,1,2023-06-25 00:00:00,120650207.00,96
+BM-00022,Autoclave,Autoclave,Welch Allyn,MX-435C,Neonatología,Servicio externo,2,2024-04-22 00:00:00,104849702.00,92
+BM-00023,Camilla de atención,Camilla de atención,Welch Allyn,MX-568E,UCI – Sala 1,Ingeniería biomédica,3,2024-02-24 00:00:00,24832387.00,120
+BM-00024,Oxímetro de pulso,Oxímetro de pulso,Dräger,MX-170C,Hospitalización 3°,Ingeniería biomédica,0,2021-02-20 00:00:00,126865490.00,90
+BM-00025,Ultrasonido diagnóstico,Ultrasonido diagnóstico,Mindray,MX-404D,UCI – Sala 1,Servicio externo,0,2022-09-08 00:00:00,56566081.00,115
+BM-00026,Bomba de aspiración,Bomba de aspiración,Baxter,MX-166F,Emergencias,Servicio externo,0,2024-11-26 00:00:00,112826741.00,101
+BM-00027,Incubadora neonatal,Incubadora neonatal,Philips,MX-548D,Imagenología,Ingeniería biomédica,4,2020-06-27 00:00:00,122665711.00,70
+BM-00028,Mesa de quirófano,Mesa de quirófano,Philips,MX-437F,Hospitalización 3°,Ingeniería biomédica,0,2023-09-06 00:00:00,126067605.00,90
+BM-00029,Central de monitoreo,Central de monitoreo,GE Healthcare,MX-464A,Sala de partos,Ingeniería biomédica,0,2019-11-09 00:00:00,180439392.00,70
+BM-00030,Generador de Rayos X,Generador de Rayos X,Siemens Healthineers,MX-863D,Neonatología,Servicio externo,0,2024-08-02 00:00:00,109683225.00,66
+BM-00031,Balanza de precisión,Balanza de precisión,Baxter,MX-543E,Laboratorio central,Ingeniería biomédica,0,2020-11-07 00:00:00,157115657.00,65
+BM-00032,Analizador clínico,Analizador clínico,Welch Allyn,MX-394A,Neonatología,Servicio externo,0,2023-06-06 00:00:00,46109885.00,96
+BM-00033,Monitor multiparamétrico,Monitor multiparamétrico,Philips,MX-671B,Imagenología,Servicio externo,0,2021-06-16 00:00:00,147659032.00,84
+BM-00034,Bomba de infusión,Bomba de infusión,Getinge,MX-547D,Imagenología,Servicio externo,0,2022-06-02 00:00:00,112437815.00,73
+BM-0101,Monitor multiparamétrico IntelliVue MX450,Monitor multiparamétrico,Philips,MX450,UCI – Sala 1,Ingeniería biomédica,1,2021-06-14 00:00:00,68400000.00,96

@@ -1,0 +1,12 @@
+﻿== Reto de transferencia ==
+1) realizadas en septiembre 2026: 5
+   INT-011 · EQP-011 · TEC-002 · preventivo · {"$date":"2026-09-03T09:00:00Z"}
+   INT-012 · EQP-012 · TEC-005 · correctivo · {"$date":"2026-09-09T10:30:00Z"}
+   INT-013 · EQP-013 · TEC-008 · calibracion · {"$date":"2026-09-15T08:00:00Z"}
+   INT-014 · EQP-014 · TEC-009 · preventivo · {"$date":"2026-09-22T14:00:00Z"}
+   INT-015 · EQP-015 · TEC-008 · correctivo · {"$date":"2026-09-29T11:00:00Z"}
+2) contraste para INT-014 sobre EQP-014:
+   HISTÓRICO (snapshot de la intervención): ubicacion="Piso 4 - Urgencias" estado="operativo" capturado={"$date":"2026-09-22T14:00:00Z"}
+   ACTUAL (documento del equipo):           ubicacion="Piso 4 - Urgencias" estado="fuera_de_servicio"
+   lectura: el equipo cambió DESPUÉS de la intervención; el snapshot conserva el momento histórico (decisión D-03).
+== Reto terminado ==

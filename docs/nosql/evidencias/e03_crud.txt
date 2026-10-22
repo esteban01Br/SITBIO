@@ -1,0 +1,11 @@
+﻿== Demo CRUD sobre s03_* ==
+estado inicial: s03_intervenciones=30 · s03_tecnicos=10
+insertOne: INT-901 insertada → s03_intervenciones=31
+insertMany: INT-902 e INT-903 → s03_intervenciones=33
+updateOne: filtro { codigo: "INT-901" } → matched=1 modified=1 · notas="Actualizada con $set."
+updateMany: filtro { servicio: "Quirófano" } + $inc intentos_contacto → matched=1 modified=1
+  después: TEC-004:1
+deleteOne: filtro { codigo: "INT-901" } → deleted=1 · s03_intervenciones=32
+deleteMany: filtro { codigo: { $in: ["INT-902","INT-903"] } } → deleted=2 · s03_intervenciones=30
+verificación final: 30 intervenciones originales intactas (esperado 30) ✓ · s03_intervenciones final=30
+Listo.

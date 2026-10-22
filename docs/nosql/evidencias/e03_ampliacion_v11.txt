@@ -1,0 +1,6 @@
+﻿== Ampliación v1.1 sobre s03_tecnicos ==
+Estado v1.1 de TEC-001..003:
+{"_id":{"$oid":"6ada05e9eb2db5ada7e94b13"},"codigo":"TEC-001","contacto_alterno":"3015550101","diagnosticos":[{"area":"Electrocardiografía","puntaje":85},{"area":"Monitoreo","puntaje":90}],"intentos_contacto":2,"temporal":false}
+{"_id":{"$oid":"6ada05e9eb2db5ada7e94b15"},"codigo":"TEC-002","contacto_alterno":null,"diagnosticos":[{"area":"Imagenología","puntaje":78}],"intentos_contacto":0,"temporal":false}
+{"_id":{"$oid":"6ada05e9eb2db5ada7e94b17"},"codigo":"TEC-003","diagnosticos":[{"area":"Bombas de infusión","puntaje":80},{"area":"Aspiración","puntaje":70}],"intentos_contacto":1,"temporal":true}
+Listo.

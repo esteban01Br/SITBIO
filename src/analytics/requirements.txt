@@ -1,0 +1,13 @@
+# Librerías del notebook de la Semana 2 (Ciencia de Datos con Python)
+# Instalar en el entorno virtual:
+#   python -m venv .venv
+#   .venv\Scripts\Activate.ps1
+#   pip install -r requirements.txt
+pandas
+numpy
+openpyxl        # lectura/escritura de Excel (pd.read_excel / to_excel)
+# pathlib viene en la biblioteca estándar de Python (no requiere instalación)
+
+# Para ejecutar el notebook desde terminal (opcional, recomendado):
+jupyter
+nbconvert

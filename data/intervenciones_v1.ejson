@@ -1,0 +1,730 @@
+[
+ {
+  "codigo": "INT-001",
+  "equipo_id": "EQP-001",
+  "tecnico_id": "TEC-003",
+  "tipo": "preventivo",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-07-06T09:00:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-07-06T17:00:00Z"
+  },
+  "repuestos": [
+   {
+    "codigo": "REP-001",
+    "nombre": "Filtro HEPA",
+    "cantidad": 2
+   }
+  ],
+  "horas_invertidas": 2.0,
+  "notas": "Mantenimiento preventivo sin observaciones.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 3 - Quirófano 2",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-07-06T09:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-002",
+  "equipo_id": "EQP-002",
+  "tecnico_id": "TEC-001",
+  "tipo": "correctivo",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-07-10T14:30:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-07-10T17:00:00Z"
+  },
+  "repuestos": [
+   {
+    "codigo": "REP-003",
+    "nombre": "Válvula de alivio",
+    "cantidad": 1
+   }
+  ],
+  "horas_invertidas": 3.5,
+  "notas": null,
+  "equipo_snapshot": {
+   "ubicacion": "Piso 2 - Urgencias",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-07-10T14:30:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-003",
+  "equipo_id": "EQP-003",
+  "tecnico_id": "TEC-006",
+  "tipo": "calibracion",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-07-15T10:00:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-07-15T17:00:00Z"
+  },
+  "repuestos": [],
+  "horas_invertidas": 1.5,
+  "notas": "Calibración con patrón externo.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 1 - Diagnóstico por imagen",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-07-15T10:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-004",
+  "equipo_id": "EQP-004",
+  "tecnico_id": "TEC-005",
+  "tipo": "preventivo",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-07-21T08:30:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-07-21T17:00:00Z"
+  },
+  "repuestos": [
+   {
+    "codigo": "REP-002",
+    "nombre": "Sonda ECG 5 der.",
+    "cantidad": 1
+   },
+   {
+    "codigo": "REP-005",
+    "nombre": "Filtro de carbón",
+    "cantidad": 1
+   }
+  ],
+  "horas_invertidas": 4.0,
+  "notas": "Se reemplazan sensores desgastados.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 2 - UCI",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-07-21T08:30:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-005",
+  "equipo_id": "EQP-005",
+  "tecnico_id": "TEC-006",
+  "tipo": "correctivo",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-07-28T16:00:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-07-28T17:00:00Z"
+  },
+  "repuestos": [
+   {
+    "codigo": "REP-006",
+    "nombre": "Batería 12 V 2.3 Ah",
+    "cantidad": 2
+   }
+  ],
+  "horas_invertidas": 5.0,
+  "notas": "Falla en el módulo de batería.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 1 - Esterilización",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-07-28T16:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-006",
+  "equipo_id": "EQP-006",
+  "tecnico_id": "TEC-009",
+  "tipo": "preventivo",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-08-04T09:00:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-08-04T17:00:00Z"
+  },
+  "repuestos": [],
+  "horas_invertidas": 2.5,
+  "notas": null,
+  "equipo_snapshot": {
+   "ubicacion": "Piso 2 - UCI",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-08-04T09:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-007",
+  "equipo_id": "EQP-007",
+  "tecnico_id": "TEC-003",
+  "tipo": "correctivo",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-08-08T11:00:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-08-08T17:00:00Z"
+  },
+  "repuestos": [
+   {
+    "codigo": "REP-004",
+    "nombre": "Kit de sellos",
+    "cantidad": 2
+   }
+  ],
+  "horas_invertidas": 6.0,
+  "notas": "Se repone kit de sellos por fuga de vapor.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 4 - Urgencias",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-08-08T11:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-008",
+  "equipo_id": "EQP-008",
+  "tecnico_id": "TEC-004",
+  "tipo": "calibracion",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-08-13T15:00:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-08-13T17:00:00Z"
+  },
+  "repuestos": [],
+  "horas_invertidas": 1.0,
+  "equipo_snapshot": {
+   "ubicacion": "Piso 3 - Quirófano 1",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-08-13T15:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-009",
+  "equipo_id": "EQP-009",
+  "tecnico_id": "TEC-002",
+  "tipo": "preventivo",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-08-19T09:30:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-08-19T17:00:00Z"
+  },
+  "repuestos": [
+   {
+    "codigo": "REP-001",
+    "nombre": "Filtro HEPA",
+    "cantidad": 2
+   }
+  ],
+  "horas_invertidas": 2.0,
+  "notas": "Filtro HEPA con vida útil al 30 %.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 1 - Laboratorio central",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-08-19T09:30:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-010",
+  "equipo_id": "EQP-010",
+  "tecnico_id": "TEC-007",
+  "tipo": "correctivo",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-08-26T13:00:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-08-26T17:00:00Z"
+  },
+  "repuestos": [
+   {
+    "codigo": "REP-002",
+    "nombre": "Sonda ECG 5 der.",
+    "cantidad": 1
+   }
+  ],
+  "horas_invertidas": 3.0,
+  "notas": "Sonda ECG reemplazada por corte de cable.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 1 - Laboratorio central",
+   "estado": "mantenimiento",
+   "capturado_en": {
+    "$date": "2026-08-26T13:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-011",
+  "equipo_id": "EQP-011",
+  "tecnico_id": "TEC-002",
+  "tipo": "preventivo",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-09-03T09:00:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-09-03T17:00:00Z"
+  },
+  "repuestos": [],
+  "horas_invertidas": 2.0,
+  "notas": "Preventivo trimestral sin hallazgos.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 2 - Hospitalización",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-09-03T09:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-012",
+  "equipo_id": "EQP-012",
+  "tecnico_id": "TEC-005",
+  "tipo": "correctivo",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-09-09T10:30:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-09-09T17:00:00Z"
+  },
+  "repuestos": [
+   {
+    "codigo": "REP-006",
+    "nombre": "Batería 12 V 2.3 Ah",
+    "cantidad": 1
+   }
+  ],
+  "horas_invertidas": 4.5,
+  "notas": "Cambio de batería y prueba de autonomía.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 3 - Cuarto técnico",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-09-09T10:30:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-013",
+  "equipo_id": "EQP-013",
+  "tecnico_id": "TEC-008",
+  "tipo": "calibracion",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-09-15T08:00:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-09-15T17:00:00Z"
+  },
+  "repuestos": [],
+  "horas_invertidas": 1.5,
+  "notas": "Verificación de señales contra patrón.",
+  "equipo_snapshot": {
+   "ubicacion": "Terraza - Casa de máquinas",
+   "estado": "mantenimiento",
+   "capturado_en": {
+    "$date": "2026-09-15T08:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-014",
+  "equipo_id": "EQP-014",
+  "tecnico_id": "TEC-009",
+  "tipo": "preventivo",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-09-22T14:00:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-09-22T17:00:00Z"
+  },
+  "repuestos": [
+   {
+    "codigo": "REP-003",
+    "nombre": "Válvula de alivio",
+    "cantidad": 1
+   },
+   {
+    "codigo": "REP-004",
+    "nombre": "Kit de sellos",
+    "cantidad": 1
+   }
+  ],
+  "horas_invertidas": 3.5,
+  "notas": "Ajuste de válvula y repuesto de sellos.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 4 - Urgencias",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-09-22T14:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-015",
+  "equipo_id": "EQP-015",
+  "tecnico_id": "TEC-008",
+  "tipo": "correctivo",
+  "estado": "realizada",
+  "fecha_inicio": {
+   "$date": "2026-09-29T11:00:00Z"
+  },
+  "fecha_fin": {
+   "$date": "2026-09-29T17:00:00Z"
+  },
+  "repuestos": [
+   {
+    "codigo": "REP-005",
+    "nombre": "Filtro de carbón",
+    "cantidad": 2
+   }
+  ],
+  "horas_invertidas": 5.5,
+  "notas": "Filtro de carbón saturado; se repone.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 3 - Quirófano 2",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-09-29T11:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-016",
+  "equipo_id": "EQP-001",
+  "tecnico_id": "TEC-003",
+  "tipo": "preventivo",
+  "estado": "programada",
+  "fecha_inicio": {
+   "$date": "2026-11-04T09:00:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "notas": "Programada en el plan trimestral.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 3 - Quirófano 2",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-11-04T09:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-017",
+  "equipo_id": "EQP-002",
+  "tecnico_id": "TEC-001",
+  "tipo": "calibracion",
+  "estado": "programada",
+  "fecha_inicio": {
+   "$date": "2026-11-06T10:00:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "equipo_snapshot": {
+   "ubicacion": "Piso 4 - Imagenología",
+   "estado": "mantenimiento",
+   "capturado_en": {
+    "$date": "2026-11-06T10:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-018",
+  "equipo_id": "EQP-003",
+  "tecnico_id": "TEC-001",
+  "tipo": "preventivo",
+  "estado": "programada",
+  "fecha_inicio": {
+   "$date": "2026-11-11T08:30:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "notas": null,
+  "equipo_snapshot": {
+   "ubicacion": "Piso 1 - Diagnóstico por imagen",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-11-11T08:30:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-019",
+  "equipo_id": "EQP-004",
+  "tecnico_id": "TEC-005",
+  "tipo": "correctivo",
+  "estado": "programada",
+  "fecha_inicio": {
+   "$date": "2026-11-13T15:00:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "notas": "Pendiente de repuesto en bodega.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 2 - UCI",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-11-13T15:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-020",
+  "equipo_id": "EQP-005",
+  "tecnico_id": "TEC-006",
+  "tipo": "preventivo",
+  "estado": "programada",
+  "fecha_inicio": {
+   "$date": "2026-11-18T09:00:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "notas": null,
+  "equipo_snapshot": {
+   "ubicacion": "Piso 1 - Esterilización",
+   "estado": "fuera_de_servicio",
+   "capturado_en": {
+    "$date": "2026-11-18T09:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-021",
+  "equipo_id": "EQP-006",
+  "tecnico_id": "TEC-004",
+  "tipo": "calibracion",
+  "estado": "programada",
+  "fecha_inicio": {
+   "$date": "2026-11-20T11:00:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "notas": null,
+  "equipo_snapshot": {
+   "ubicacion": "Piso 2 - UCI",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-11-20T11:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-022",
+  "equipo_id": "EQP-007",
+  "tecnico_id": "TEC-003",
+  "tipo": "preventivo",
+  "estado": "programada",
+  "fecha_inicio": {
+   "$date": "2026-11-25T09:00:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "notas": null,
+  "equipo_snapshot": {
+   "ubicacion": "Piso 4 - Urgencias",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-11-25T09:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-023",
+  "equipo_id": "EQP-008",
+  "tecnico_id": "TEC-004",
+  "tipo": "correctivo",
+  "estado": "programada",
+  "fecha_inicio": {
+   "$date": "2026-11-27T14:00:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "notas": null,
+  "equipo_snapshot": {
+   "ubicacion": "Piso 3 - Quirófano 1",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-11-27T14:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-024",
+  "equipo_id": "EQP-009",
+  "tecnico_id": "TEC-007",
+  "tipo": "preventivo",
+  "estado": "programada",
+  "fecha_inicio": {
+   "$date": "2026-11-02T10:00:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "notas": null,
+  "equipo_snapshot": {
+   "ubicacion": "Piso 1 - Laboratorio central",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-11-02T10:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-025",
+  "equipo_id": "EQP-010",
+  "tecnico_id": "TEC-007",
+  "tipo": "calibracion",
+  "estado": "programada",
+  "fecha_inicio": {
+   "$date": "2026-11-30T09:00:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "notas": "Calibración de fin de año.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 1 - Laboratorio central",
+   "estado": "mantenimiento",
+   "capturado_en": {
+    "$date": "2026-11-30T09:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-026",
+  "equipo_id": "EQP-011",
+  "tecnico_id": "TEC-002",
+  "tipo": "correctivo",
+  "estado": "cancelada",
+  "fecha_inicio": {
+   "$date": "2026-08-06T10:00:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "notas": "Cancelada: el equipo ya fue retirado por el servicio clínico.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 2 - Hospitalización",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-08-06T10:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-027",
+  "equipo_id": "EQP-012",
+  "tecnico_id": "TEC-010",
+  "tipo": "preventivo",
+  "estado": "cancelada",
+  "fecha_inicio": {
+   "$date": "2026-08-20T09:00:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "notas": "Cancelada: el servicio solicitante aplazó la ventana.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 3 - Cuarto técnico",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-08-20T09:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-028",
+  "equipo_id": "EQP-013",
+  "tecnico_id": "TEC-008",
+  "tipo": "calibracion",
+  "estado": "cancelada",
+  "fecha_inicio": {
+   "$date": "2026-09-05T11:00:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "notas": "Cancelada: el patrón de calibración estaba en uso.",
+  "equipo_snapshot": {
+   "ubicacion": "Terraza - Casa de máquinas",
+   "estado": "mantenimiento",
+   "capturado_en": {
+    "$date": "2026-09-05T11:00:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-029",
+  "equipo_id": "EQP-014",
+  "tecnico_id": "TEC-009",
+  "tipo": "correctivo",
+  "estado": "cancelada",
+  "fecha_inicio": {
+   "$date": "2026-09-18T15:30:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "notas": null,
+  "equipo_snapshot": {
+   "ubicacion": "Piso 4 - Urgencias",
+   "estado": "fuera_de_servicio",
+   "capturado_en": {
+    "$date": "2026-09-18T15:30:00Z"
+   }
+  }
+ },
+ {
+  "codigo": "INT-030",
+  "equipo_id": "EQP-015",
+  "tecnico_id": "TEC-003",
+  "tipo": "preventivo",
+  "estado": "cancelada",
+  "fecha_inicio": {
+   "$date": "2026-09-26T08:00:00Z"
+  },
+  "fecha_fin": null,
+  "repuestos": [],
+  "horas_invertidas": 0.0,
+  "notas": "Cancelada: equipo fuera de servicio, ver INT relacionada.",
+  "equipo_snapshot": {
+   "ubicacion": "Piso 3 - Quirófano 2",
+   "estado": "operativo",
+   "capturado_en": {
+    "$date": "2026-09-26T08:00:00Z"
+   }
+  }
+ }
+]
