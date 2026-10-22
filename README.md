@@ -8,6 +8,8 @@ instituciones de salud. Construida en **C# / .NET 10 / WPF** con el patrón **MV
 > WPF conectado mediante un interruptor **Demo/Api** (`RepositorioApi` + `sitbio.config.json`).
 > Fase 3 (MongoDB de intervenciones/formularios/auditoría) según la arquitectura oficial
 > ADSO-ARQ-01 (plan en la sección 4; documento fuente en `docs/arquitectura/`).
+> Entregados además los **laboratorios de las guías SENA** (NoSQL Semanas 2/3 y Python Semana 2)
+> adaptados al caso SITBIO — ver sección 11.
 
 ---
 
@@ -23,7 +25,8 @@ instituciones de salud. Construida en **C# / .NET 10 / WPF** con el patrón **MV
 8. [Diseño y tema visual](#8-diseño-y-tema-visual)
 9. [Bugs corregidos durante el desarrollo](#9-bugs-corregidos-durante-el-desarrollo)
 10. [Git: flujo GitFlow y buenas prácticas](#10-git-flujo-gitflow-y-buenas-prácticas)
-11. [Siguientes pasos](#11-siguientes-pasos)
+11. [Laboratorios de las guías SENA: NoSQL y Python](#11-laboratorios-de-las-guías-sena-nosql-y-python)
+12. [Siguientes pasos](#12-siguientes-pasos)
 
 ---
 
@@ -55,7 +58,11 @@ Para el **modo Api** se necesita además **Docker Desktop** (PostgreSQL corre en
 ### Modo Demo (por defecto) — sin servidor ni base de datos
 
 ```powershell
-cd "C:\Users\Sena\Downloads\Enterprise Healthcare SaaS UI\SITBIO-Desktop"
+# 1) Clonar y entrar a la carpeta (una sola vez):
+# git clone https://github.com/esteban01Br/SITBIO.git
+cd SITBIO    # carpeta del clonado; todas las rutas de este README son relativas a ella
+
+# 2) Arrancar en modo Demo:
 dotnet run --project src/client/SITBIO-Desktop.csproj
 ```
 
@@ -76,6 +83,10 @@ docker run -d --name sitbio-pg -p 5433:5432 `
 # (si el contenedor ya existe: docker start sitbio-pg)
 
 # 2) API REST — http://localhost:5088 (Swagger en /swagger):
+#    La API NO trae secretos en el repo: configúralos una vez (ver appsettings.Example.json):
+#      dotnet user-secrets init
+#      dotnet user-secrets set "ConnectionStrings:Sitbio" "Host=localhost;Port=5433;Database=sitbio;Username=sitbio;Password=<tu contrasena>"
+#      dotnet user-secrets set "Jwt:Clave" "<clave de al menos 32 caracteres>"
 dotnet run --project src/backend/SITBIO.Api
 
 # 3) Cliente en modo Api, sin tocar archivos:
@@ -108,6 +119,10 @@ campos automáticamente. También se pueden digitar:
 La contraseña depende del rol (`DemoDataProvider.ClaveDemo`). La institución activa por defecto es la
 **Clínica San José de la Montaña**; hay usuarios de otras dos instituciones para probar el aislamiento
 multi-tenant (`admin2@sitbio.com`, `admin3@sitbio.com`, etc. con la misma lógica de contraseñas).
+
+> **Solo demostración**: estas credenciales y la siembra de usuarios existen para probar la app en
+> clase; no deben usarse ni desplegarse en un entorno real de producción (SEC-001/002 de la
+> arquitectura oficial).
 
 ---
 
@@ -455,7 +470,7 @@ Disponibilidad, MTBF, MTTR, cumplimiento de SLA, preventivos vencidos y costos m
 **Flujo paso a paso (ejemplo con una tarea):**
 
 ```powershell
-cd "C:\Users\Sena\Downloads\Enterprise Healthcare SaaS UI\SITBIO-Desktop"
+cd SITBIO   # carpeta del repositorio clonado
 git checkout develop
 git pull
 git checkout -b feature/base-datos-postgresql
@@ -492,7 +507,33 @@ Otras buenas prácticas ya aplicadas en el repo: `.gitignore` (excluye `bin/`, `
 
 ---
 
-## 11. Siguientes pasos
+## 11. Laboratorios de las guías SENA: NoSQL y Python
+
+Además del producto SITBIO, el repositorio contiene los entregables prácticos de las guías del
+programa, **adaptados al caso del proyecto** (la adaptación está pendiente de validación por el
+instructor):
+
+| Guía | Qué entrega | Dónde |
+|---|---|---|
+| Bases de Datos NoSQL — Semana 2 (E02) | Modelo documental v1: patrones de acceso Q01–Q06/W01–W04, diagrama con cardinalidades (1:1, 1:N y prototipo N:M), 3 decisiones de embeber vs referenciar, diccionario, integridad y semilla **10/15/30** en Extended JSON | `docs/nosql/`, `data/`, `scripts/01..04` |
+| Bases de Datos NoSQL — Semana 3 (E03) | Colecciones `s03_*`, ampliación v1.1, demostración CRUD, **10 consultas C01–C10** con matriz esperado/obtenido, variante TMP-101 y reto de transferencia | `scripts/10..15`, `docs/nosql/matriz_consultas.md` |
+| Ciencia de Datos con Python — Semana 2 | Notebook con estructuras, NumPy, Pandas, inspección y exportación sobre **datos reales de SITBIO** (equipos e intervenciones exportados de PostgreSQL) | `src/analytics/` |
+
+- **MongoDB probado en este equipo**: servidor **7.0.43** (servicio local, puerto 27017) +
+  **mongosh 2.13.0**; base de laboratorio `sitbio_lab_nosql`. Instrucciones, conteos esperados y
+  forma de recuperar una carga incompleta en [`docs/nosql/README.md`](docs/nosql/README.md);
+  salidas reales en `docs/nosql/evidencias/` y errores reales en `docs/nosql/bitacora_errores.md`.
+- **Python probado en este equipo**: `src/analytics` con `.venv` local (Python 3.14, `pandas`,
+  `numpy`, `openpyxl`) y el notebook **ejecutado de principio a fin sin errores** (0/0), con
+  exportación a `data/processed/` y copia ejecutada en `outputs/`.
+  Ver [`src/analytics/README.md`](src/analytics/README.md) y su checklist de 9 criterios.
+
+> Estos laboratorios **no** reemplazan las fases 3/4 del producto: son evidencias de las guías
+> semanales; la Fase 3 (MongoDB dentro de la aplicación) sigue planificada en la sección 12.
+
+---
+
+## 12. Siguientes pasos
 
 1. ~~**Fase 2 — Backend**~~ ✅ `src/backend/SITBIO.Api/`: API REST ASP.NET Core 8 (JWT + BCrypt,
    RBAC, aislamiento por tenant) con EF Core y **PostgreSQL 16**, siembra equivalente a
@@ -502,8 +543,12 @@ Otras buenas prácticas ya aplicadas en el repo: `.gitignore` (excluye `bin/`, `
    métodos `Actualizar*`/`AgregarIntervencion` de la interfaz.
 3. **Fase 3 — MongoDB**: intervenciones con `camposDinamicos`, configuración de formularios y
    bitácora de auditoría (en la fase 2 quedaron en PostgreSQL como decisión de alcance).
+   *Avance*: el modelo documental y las consultas ya están probados como laboratorio de las guías
+   (sección 11, `docs/nosql/`); falta integrarlo al backend/cliente.
 4. **Fase 4 — Analítica**: pipeline Python con K-Means en `/src/analytics` (sección 14.1 del
-   documento de arquitectura).
+   documento de arquitectura). *Avance*: existe `src/analytics/` con datos reales de SITBIO y el
+   notebook de la Semana 2 (sección 11); falta el pipeline K-Means y el endpoint
+   `/api/v1/analytics/kmeans`.
 5. **Pendiente del equipo**: alinear el TFM del backend (`net8.0`) con el cliente (`net10.0`).
 6. **Módulos "próximamente"**: Calibraciones e inventario de repuestos.
 
