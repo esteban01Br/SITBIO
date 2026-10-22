@@ -36,3 +36,8 @@ publish/
 
 # Logs
 *.log
+
+# Python / analytics (src/analytics)
+.venv/
+__pycache__/
+.ipynb_checkpoints/
