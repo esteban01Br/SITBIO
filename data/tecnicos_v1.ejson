@@ -1,0 +1,142 @@
+[
+ {
+  "codigo": "TEC-001",
+  "nombre": "Laura Gómez Ríos",
+  "email": "laura.gomez@sitbio.com",
+  "servicio": "Imagenología",
+  "especialidades": [
+   "ECG",
+   "Monitoreo multiparamétrico"
+  ],
+  "usuario_id": 1,
+  "creado": {
+   "$date": "2026-07-01T07:30:00Z"
+  }
+ },
+ {
+  "codigo": "TEC-002",
+  "nombre": "Carlos Méndez Ruiz",
+  "email": "carlos.mendez@sitbio.com",
+  "servicio": "Imagenología",
+  "especialidades": [
+   "Rayos X",
+   "Tomógrafo"
+  ],
+  "usuario_id": 4,
+  "creado": {
+   "$date": "2026-07-01T07:30:00Z"
+  }
+ },
+ {
+  "codigo": "TEC-003",
+  "nombre": "Ana Patricia Castro",
+  "email": "ana.castro@sitbio.com",
+  "servicio": "Urgencias",
+  "especialidades": [
+   "Bombas de infusión",
+   "Aspiración"
+  ],
+  "usuario_id": 5,
+  "creado": {
+   "$date": "2026-07-01T07:30:00Z"
+  }
+ },
+ {
+  "codigo": "TEC-004",
+  "nombre": "Jorge Luis Ramírez",
+  "email": "jorge.ramirez@sitbio.com",
+  "servicio": "Quirófano",
+  "especialidades": [
+   "Bisturí eléctrico",
+   "Electrocauterio"
+  ],
+  "usuario_id": 6,
+  "creado": {
+   "$date": "2026-07-01T07:30:00Z"
+  }
+ },
+ {
+  "codigo": "TEC-005",
+  "nombre": "Mariana Ocampo Sánchez",
+  "email": "mariana.ocampo@sitbio.com",
+  "servicio": "UCI",
+  "especialidades": [
+   "Monitoreo",
+   "Ventiladores"
+  ],
+  "usuario_id": 7,
+  "creado": {
+   "$date": "2026-07-01T07:30:00Z"
+  }
+ },
+ {
+  "codigo": "TEC-006",
+  "nombre": "Andrés Felipe Herrera",
+  "email": "andres.herrera@sitbio.com",
+  "servicio": "Esterilización",
+  "especialidades": [
+   "Autoclaves",
+   "Esterilizadores"
+  ],
+  "usuario_id": 8,
+  "creado": {
+   "$date": "2026-07-01T07:30:00Z"
+  }
+ },
+ {
+  "codigo": "TEC-007",
+  "nombre": "Sofía Martínez Peña",
+  "email": "sofia.martinez@sitbio.com",
+  "servicio": "Laboratorio",
+  "especialidades": [
+   "Centrífugas",
+   "Analizadores"
+  ],
+  "usuario_id": 9,
+  "creado": {
+   "$date": "2026-07-01T07:30:00Z"
+  }
+ },
+ {
+  "codigo": "TEC-008",
+  "nombre": "Ricardo Torres Blanco",
+  "email": "ricardo.torres@sitbio.com",
+  "servicio": "Infraestructura",
+  "especialidades": [
+   "UPS",
+   "Generadores"
+  ],
+  "usuario_id": 10,
+  "creado": {
+   "$date": "2026-07-01T07:30:00Z"
+  }
+ },
+ {
+  "codigo": "TEC-009",
+  "nombre": "Camila Vargas León",
+  "email": "camila.vargas@sitbio.com",
+  "servicio": "Urgencias",
+  "especialidades": [
+   "Ventiladores",
+   "Oxigenoterapia"
+  ],
+  "usuario_id": 11,
+  "creado": {
+   "$date": "2026-07-01T07:30:00Z"
+  }
+ },
+ {
+  "codigo": "TEC-010",
+  "nombre": "Diego Fernández Soto",
+  "email": "diego.fernandez@sitbio.com",
+  "servicio": "Infraestructura",
+  "especialidades": [
+   "Calderas",
+   "Red de gases"
+  ],
+  "usuario_id": 12,
+  "creado": {
+   "$date": "2026-07-01T07:30:00Z"
+  }
+ }
+]

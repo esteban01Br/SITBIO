@@ -1,0 +1,5 @@
+﻿== Error controlado: escritura con referencia inexistente ==
+ANTES       → EQP-002.responsable_id = "TEC-001"
+RECHAZADO   → responsable_id="TEC-999" no existe en tecnicos. La escritura NO se ejecuta.
+DESPUÉS     → EQP-002.responsable_id = "TEC-001"  (sin cambios ✓)
+Aprendizaje: en MongoDB la integridad referencial se garantiza validando ANTES de escribir; no existe el rechazo automático de una llave foránea como en PostgreSQL.

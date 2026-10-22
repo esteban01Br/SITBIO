@@ -1,0 +1,8 @@
+﻿== Verificación de la semilla ==
+1) conteos: tecnicos=10 (esperado 10) · equipos=15 (esperado 15) · intervenciones=30 (esperado 30)  ✓
+2) distribución intervenciones: {"cancelada":5,"realizada":15,"programada":10} (esperado realizada=15 programada=10 cancelada=5)  ✓
+3) referencias rotas: 0 (esperado 0) ✓
+4) atributo propio campos_dinamicos.clasificacion_riesgo: 0 valor(es) fuera de dominio/límite (esperado 0) ✓
+5) reglas entre campos (diccionario §4): 0 rota(s) (esperado 0) ✓
+6) muestras: INT-002 (con snapshot, estado=operativo) · EQP-002 (sector=Urgencias)
+== Verificación terminada ==
